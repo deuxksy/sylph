@@ -1,0 +1,56 @@
+{
+	"groups": {
+		"group:admin":   ["ksymailing@gmail.com"],
+		"group:member":  ["deuxksy@gmail.com"],
+		"group:develop": ["deuxksy@gmail.com"],
+	},
+
+	"tagOwners": {
+		"tag:https":    ["group:admin", "autogroup:admin"],
+		"tag:docker":   ["group:admin", "autogroup:admin"],
+		"tag:heritage": ["group:admin", "autogroup:admin"],
+		"tag:mobile":   ["group:admin", "autogroup:admin"],
+		"tag:server":   ["group:admin", "autogroup:admin"],
+		"tag:network":  ["group:admin", "autogroup:admin"],
+		"tag:pc":       ["group:admin", "autogroup:admin"],
+	},
+
+	"nodeAttrs": [
+		{
+			"target": ["tag:https"],
+			"attr": [
+				"funnel",
+				// 인터넷 사용자에게 오직 443 포트만 노출하도록 하드웨어 레벨에서 제한
+				"tailscale.com/cap/funnel?ports=443",
+			],
+		},
+		{
+			"target": ["tag:https"],
+			"attr":   ["funnel"],
+		},
+		{
+			// tag:server 와 tag:pc로부터 파일을 받을 수 있게 허용
+			"target": ["tag:server", "tag:pc"],
+			"attr":   ["tailscale.com/cap/file-sharing"],
+		},
+	],
+
+	"acls": [
+		// 내부망 통신 허용 (Private Mesh)
+		{
+			"action": "accept",
+			"src":    ["*"],
+			"dst":    ["*:*"],
+		},
+	],
+
+	"ssh": [
+		{
+			"action": "accept",
+			"src":    ["group:admin", "group:member", "group:develop"],
+			"dst":    ["tag:server", "tag:network", "autogroup:self"],
+			"users":  ["autogroup:nonroot", "crong", "deck"],
+		},
+	],
+}
+

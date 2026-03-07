@@ -1,0 +1,42 @@
+name: Sync Tailscale ACLs
+
+on:
+  push:
+    branches:
+      - main  # 메인 브랜치에 푸시될 때 실행
+    paths:
+      - 'policy.hujson' # 이 파일이 변경될 때만 실행
+  pull_request:
+    paths:
+      - 'policy.hujson'
+
+jobs:
+  acl-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Test ACL
+        uses: tailscale/gitops-acl-action@v1
+        with:
+          api-client-id: ${{ secrets.TS_API_CLIENT_ID }}
+          api-client-secret: ${{ secrets.TS_API_CLIENT_SECRET }}
+          policy-file: policy.hujson
+          action: test # PR 단계에서는 문법 및 정책 테스트만 수행
+
+  acl-apply:
+    needs: acl-check
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Apply ACL
+        uses: tailscale/gitops-acl-action@v1
+        with:
+          api-client-id: ${{ secrets.TS_API_CLIENT_ID }}
+          api-client-secret: ${{ secrets.TS_API_CLIENT_SECRET }}
+          policy-file: policy.hujson
+          action: apply # 메인 브랜치 병합 시 실제 반영
