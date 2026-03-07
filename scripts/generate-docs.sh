@@ -293,3 +293,25 @@ generate_tags_section() {
 
     echo -e "$output"
 }
+
+generate_acls_section() {
+    local output="## 🔐 ACL 규칙\n\n"
+    output+="| 소스 | 대상 | 액션 |\n"
+    output+="|------|------|------|\n"
+
+    while IFS='|' read -r src dst action; do
+        # 포트 정보 추출 (dst:port 형식)
+        local dst_display="$dst"
+        if [[ "$dst" =~ \*:[0-9]+ ]]; then
+            dst_display="모든 포트"
+        elif [[ "$dst" =~ : ]]; then
+            dst_display="\`$dst\`"
+        else
+            dst_display="\`$dst\`"
+        fi
+
+        output+="| \`$src\` | $dst_display | $action |\n"
+    done < <(parse_acls)
+
+    echo -e "$output"
+}
