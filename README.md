@@ -1,0 +1,101 @@
+# Tailscale ACL Documentation Generator
+
+Tailscale ACL 정책(`policy.hujson`)을 자동으로 문서화하는 시스템입니다.
+
+## 기능
+
+- 📄 **Markdown 문서 생성** - ACL 정책을 사람이 읽기 쉬운 형태로 변환
+- 📊 **Mermaid 다이어그램** - 네트워크 연결을 시각화
+- 💬 **PR 자동 코멘트** - 변경사항을 PR에 자동으로 코멘트
+- ✅ **문법 검증** - HUJSON/JSON 유효성 검사
+
+## 사용법
+
+### 로컬에서 문서 생성
+
+```bash
+# 기본 사용 (docs/acl.md 생성)
+./scripts/generate-docs.sh
+
+# PR 코멘트용 diff도 생성
+./scripts/generate-docs.sh --pr-comment
+
+# 상세 로그 출력
+./scripts/generate-docs.sh --verbose
+
+# 도움말
+./scripts/generate-docs.sh --help
+```
+
+### GitHub Actions
+
+PR이 생성되거나 `policy.hujson`이 변경되면 자동으로 PR에 변경사항 코멘트가 생성됩니다.
+
+## 파일 구조
+
+```
+.
+├── policy.hujson              # ACL 정책 파일
+├── scripts/
+│   └── generate-docs.sh       # 문서 생성 스크립트
+├── docs/
+│   └── acl.md                 # 생성된 문서
+└── .github/workflows/
+    ├── tailscale-acl.yml      # ACL 적용 워크플로우
+    └── acl-docs.yml           # 문서화 워크플로우
+```
+
+## CLI 옵션
+
+| 옵션 | 설명 | 기본값 |
+|------|------|--------|
+| `-p, --policy FILE` | policy.hujson 경로 | `policy.hujson` |
+| `-o, --output DIR` | 출력 디렉토리 | `docs` |
+| `--pr-comment` | PR 코멘트용 diff 생성 | - |
+| `--compare REF` | 비교할 git 참조 | `HEAD~1` |
+| `-v, --verbose` | 상세 로그 출력 | - |
+| `-h, --help` | 도움말 표시 | - |
+
+## 요구사항
+
+- `jq` - JSON 처리
+- `python3` + `json5` - HUJSON 파싱
+
+```bash
+# Ubuntu/Debian
+sudo apt install jq python3-pip
+pip install json5
+
+# macOS
+brew install jq python3
+pip3 install json5
+```
+
+## 문서 형식
+
+생성되는 문서는 다음 섹션들을 포함합니다:
+
+- 📋 개요
+- 👥 그룹 및 사용자
+- 🏷️ 태그 및 소유자
+- 🔐 ACL 규칙
+- 🔑 SSH 규칙
+- 📊 네트워크 연결 다이어그램 (Mermaid)
+- 🔗 참고 링크
+
+## 워크플로우
+
+```mermaid
+graph LR
+    A[policy.hujson 수정] --> B[문서 생성]
+    B --> C[PR 생성]
+    C --> D{GitHub Actions}
+    D -->|policy.hujson 변경| E[PR 코멘트 생성]
+    D -->|workflow_dispatch| E
+    E --> F[문서 검토]
+    F --> G[main 병합]
+```
+
+## 라이선스
+
+MIT
