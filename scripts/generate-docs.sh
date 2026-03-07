@@ -315,3 +315,15 @@ generate_acls_section() {
 
     echo -e "$output"
 }
+
+generate_ssh_section() {
+    local output="## 🔑 SSH 규칙\n\n"
+    output+="| 액션 | 소스 | 대상 | 허용 사용자 |\n"
+    output+="|------|------|------|-------------|\n"
+
+    while IFS='|' read -r action src dst users; do
+        output+="| $action | \`$src\` | \`$dst\` | \`$users\` |\n"
+    done < <(parse_ssh)
+
+    echo -e "$output"
+}
