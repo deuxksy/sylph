@@ -436,5 +436,138 @@ main() {
     fi
 }
 
+# PR Comment generation
+compare_policies() {
+    local old_file
+    local new_file
+
+    # git 이력이 있는 경우 이전 버전 가져오기
+    if git rev-parse --git-dir > /dev/null 2>&1; then
+        old_file=$(git show "$COMPARE_REF:policy.hujson" 2>/dev/null || echo "")
+        new_file=$(cat "$POLICY_FILE")
+
+        if [[ -z "$old_file" ]]; then
+            echo "NEW|파일이 새로 생성되었습니다"
+            return
+        fi
+
+        # 임시 파일로 비교
+        local old_tmp=$(mktemp)
+        local new_tmp=$(mktemp)
+
+        echo "$old_file" > "$old_tmp"
+        echo "$new_file" > "$new_tmp"
+
+        # diff 분석
+        local diff_output=$(diff -u "$old_tmp" "$new_tmp" || true)
+
+        rm -f "$old_tmp" "$new_tmp"
+
+        # 변경사항 파싱
+        analyze_diff "$diff_output"
+    else
+        echo "NOGIT|git 이력이 없습니다"
+    fi
+}
+
+analyze_diff() {
+    local diff="$1"
+    local added=0
+    local modified=0
+    local deleted=0
+
+    # 간단한 변경 감지
+    if echo "$diff" | grep -q "^+.*\"groups\""; then
+        ((modified++))
+    fi
+    if echo "$diff" | grep -q "^+.*\"acls\""; then
+        ((modified++))
+    fi
+    if echo "$diff" | grep -q "^+.*\"tagOwners\""; then
+        ((modified++))
+    fi
+    if echo "$diff" | grep -q "^+.*\"ssh\""; then
+        ((modified++))
+    fi
+
+    # 추가된 라인 수
+    local added_lines=$(echo "$diff" | grep -c "^+" || true)
+    # 삭제된 라인 수
+    local deleted_lines=$(echo "$diff" | grep -c "^-" || true)
+
+    echo "CHANGES|$modified|+$added_lines|-$deleted_lines"
+}
+
+generate_pr_comment() {
+    log_info "Generating PR comment..."
+
+    local metadata
+    local commit_hash
+    local commit_date
+
+    metadata=$(get_metadata)
+    IFS='|' read -r commit_hash commit_date _ <<< "$metadata"
+
+    cat > ".pr-comment.md" << PR_COMMENT
+## 📋 ACL 변경사항 요약
+
+**커밋:** \`$commit_hash\`
+**변경일:** $commit_date
+
+---
+
+### 📊 변경 분석
+
+PR_COMMENT
+
+    # 변경사항 분석 추가
+    local comparison=$(compare_policies)
+    IFS='|' read -r change_type rest <<< "$comparison"
+
+    case "$change_type" in
+        "NEW")
+            echo "**상태:** 🆕 새로운 ACL 정책 파일" >> ".pr-comment.md"
+            ;;
+        "NOGIT")
+            echo "**상태:** ⚠️ Git 이력 없음 (변경 추적 불가)" >> ".pr-comment.md"
+            ;;
+        "CHANGES")
+            IFS='|' read -r _ modified added deleted <<< "$comparison"
+            echo "**상태:** 📝 ACL 정책 수정" >> ".pr-comment.md"
+            echo "" >> ".pr-comment.md"
+            echo "변경된 섹션: $modified개" >> ".pr-comment.md"
+            echo "라인 변경: $added / $deleted" >> ".pr-comment.md"
+            ;;
+    esac
+
+    cat >> ".pr-comment.md" << 'PR_COMMENT_END'
+
+---
+
+### 📄 전체 문서 보기
+
+생성된 문서는 `docs/acl.md`에서 확인할 수 있습니다.
+
+PR_COMMENT_END
+
+    log_info "✓ PR comment generated: .pr-comment.md"
+}
+
+main() {
+    validate_all
+    generate_document
+
+    if [[ "$PR_COMMENT" == "true" ]]; then
+        generate_pr_comment
+    fi
+
+    if [[ "$VERBOSE" == "true" ]]; then
+        cat "$OUTPUT_DIR/acl.md"
+        if [[ "$PR_COMMENT" == "true" ]]; then
+            cat ".pr-comment.md"
+        fi
+    fi
+}
+
 # 메인 함수 호출
 main "$@"
