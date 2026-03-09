@@ -2,6 +2,67 @@
 
 Tailscale ACL 정책(`policy.hujson`)을 자동으로 문서화하는 시스템입니다.
 
+## 네트워크 topology
+
+```mermaid
+graph TB
+
+    subgraph "ZZiZiLY<br/>(bun-bull.ts.net)"
+        subgraph "Mobile (tag:mobile)"
+            M1[iPhone<br/>iOS]
+            M2[iPad<br/>iOS]
+            M3[Galuxy<br/>Android]
+        end
+
+        subgraph "PC (tag:pc)"
+            PC1[EVE<br/>macOS]
+            PC2[Surface<br/>Windows]
+        end
+
+        subgraph "Server (tag:server)"
+            S1[Girl<br/>Linux]
+            S2[WALL.E<br/>Linux<br/>🌐 Exit Node]
+        end
+
+        subgraph "Docker (tag:docker)"
+            I1[heritage<br/>Linux<br/>🔌 Serve<br/>⚡ Ephemeral]
+        end
+
+        subgraph "Network (tag:network)"
+            I2[arv<br/>Linux<br/>🔌 Funnel<br/>🌐 Subnet Router]
+        end
+    end
+
+    Internet((🌐 Internet)) ==>|Funnel 443| I2
+    %% Tailnet devices access LAN via arv
+    I2 ==>|Subnet| LAN[🏠 LAN<br/>192.168.1.0/24<br/>192.168.8.0/24]
+    %% Tailnet uses NextDNS for DNS resolution
+    DNS[🌐 NextDNS 6cc36a]
+
+    style M1 fill:#e1f5fe
+    style M2 fill:#e1f5fe
+    style M3 fill:#e1f5fe
+    style PC1 fill:#f3e5f5
+    style PC2 fill:#f3e5f5
+    style S1 fill:#fff3e0
+    style S2 fill:#ffebee
+    style I1 fill:#e8f5e9
+    style I2 fill:#e8f5e9
+```
+
+## 워크플로우
+
+```mermaid
+graph LR
+    A[policy.hujson 수정] --> B[문서 생성]
+    B --> C[PR 생성]
+    C --> D{GitHub Actions}
+    D -->|policy.hujson 변경| E[PR 코멘트 생성]
+    D -->|workflow_dispatch| E
+    E --> F[문서 검토]
+    F --> G[main 병합]
+```
+
 ## 기능
 
 - 📄 **Markdown 문서 생성** - ACL 정책을 사람이 읽기 쉬운 형태로 변환
@@ -82,19 +143,6 @@ pip3 install json5
 - 🔑 SSH 규칙
 - 📊 네트워크 연결 다이어그램 (Mermaid)
 - 🔗 참고 링크
-
-## 워크플로우
-
-```mermaid
-graph LR
-    A[policy.hujson 수정] --> B[문서 생성]
-    B --> C[PR 생성]
-    C --> D{GitHub Actions}
-    D -->|policy.hujson 변경| E[PR 코멘트 생성]
-    D -->|workflow_dispatch| E
-    E --> F[문서 검토]
-    F --> G[main 병합]
-```
 
 ## 라이선스
 
