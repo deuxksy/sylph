@@ -2,11 +2,7 @@
 
 Sylph는 Tailscale ACL 정책(`policy.hujson`)을 자동으로 문서화하고 Cloudflare(DNS)를 통한 도메인을 통합 관리하는 시스템입니다.
 
-## Sylph란?
-
-**Sylph(실프)**는 바람의 요정을 뜻합니다. 네트워크 연결과 데이터 흐름을 상징합니다.
-
-## 네트워크 topology
+## Topology
 
 ```mermaid
 graph TB
@@ -54,7 +50,7 @@ graph TB
     style I2 fill:#e8f5e9
 ```
 
-## 워크플로우
+## Workflow
 
 ```mermaid
 graph LR
