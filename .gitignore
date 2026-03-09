@@ -20,5 +20,8 @@ Thumbs.db
 .env.local
 .env.*.local
 
+# MCP configuration (contains API tokens)
+.mcp.json
+
 # oh-my-claudecode
 .omc/

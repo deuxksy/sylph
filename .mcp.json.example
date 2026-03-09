@@ -1,0 +1,128 @@
+{
+  "serena": {
+     "type": "stdio",
+     "command": "uvx",
+     "args":  [
+         "serena"
+     ]
+  },
+  "globalping": {
+    "type": "http",
+    "url": "https://mcp.globalping.dev/mcp",
+    "headers": {
+      "Authorization": "Bearer YOUR_GLOBALPING_API_TOKEN"
+    }
+  },
+  "cloudflare-docs": {
+    "type": "http",
+    "url": "https://docs.mcp.cloudflare.com/mcp",
+    "headers": {
+      "Authorization": "Bearer YOUR_CLOUDFLARE_API_TOKEN",
+      "CF-Account-ID": "YOUR_CLOUDFLARE_ACCOUNT_ID"
+    }
+  },
+  "cloudflare-workers-bindings": {
+    "type": "http",
+    "url": "https://bindings.mcp.cloudflare.com/mcp",
+    "headers": {
+      "Authorization": "Bearer YOUR_CLOUDFLARE_API_TOKEN",
+      "CF-Account-ID": "YOUR_CLOUDFLARE_ACCOUNT_ID"
+    }
+  },
+  "cloudflare-workers-builds": {
+    "type": "http",
+    "url": "https://builds.mcp.cloudflare.com/mcp",
+    "headers": {
+      "Authorization": "Bearer YOUR_CLOUDFLARE_API_TOKEN",
+      "CF-Account-ID": "YOUR_CLOUDFLARE_ACCOUNT_ID"
+    }
+  },
+  "cloudflare-observability": {
+    "type": "http",
+    "url": "https://observability.mcp.cloudflare.com/mcp",
+    "headers": {
+      "Authorization": "Bearer YOUR_CLOUDFLARE_API_TOKEN",
+      "CF-Account-ID": "YOUR_CLOUDFLARE_ACCOUNT_ID"
+    }
+  },
+  "cloudflare-radar": {
+    "type": "http",
+    "url": "https://radar.mcp.cloudflare.com/mcp",
+    "headers": {
+      "Authorization": "Bearer YOUR_CLOUDFLARE_API_TOKEN",
+      "CF-Account-ID": "YOUR_CLOUDFLARE_ACCOUNT_ID"
+    }
+  },
+  "cloudflare-containers": {
+    "type": "http",
+    "url": "https://containers.mcp.cloudflare.com/mcp",
+    "headers": {
+      "Authorization": "Bearer YOUR_CLOUDFLARE_API_TOKEN",
+      "CF-Account-ID": "YOUR_CLOUDFLARE_ACCOUNT_ID"
+    }
+  },
+  "cloudflare-logpush": {
+    "type": "http",
+    "url": "https://logs.mcp.cloudflare.com/mcp",
+    "headers": {
+      "Authorization": "Bearer YOUR_CLOUDFLARE_API_TOKEN",
+      "CF-Account-ID": "YOUR_CLOUDFLARE_ACCOUNT_ID"
+    }
+  },
+  "cloudflare-ai-gateway": {
+    "type": "http",
+    "url": "https://ai-gateway.mcp.cloudflare.com/mcp",
+    "headers": {
+      "Authorization": "Bearer YOUR_CLOUDFLARE_API_TOKEN",
+      "CF-Account-ID": "YOUR_CLOUDFLARE_ACCOUNT_ID"
+    }
+  },
+  "cloudflare-autorag": {
+    "type": "http",
+    "url": "https://autorag.mcp.cloudflare.com/mcp",
+    "headers": {
+      "Authorization": "Bearer YOUR_CLOUDFLARE_API_TOKEN",
+      "CF-Account-ID": "YOUR_CLOUDFLARE_ACCOUNT_ID"
+    }
+  },
+  "cloudflare-audit-logs": {
+    "type": "http",
+    "url": "https://auditlogs.mcp.cloudflare.com/mcp",
+    "headers": {
+      "Authorization": "Bearer YOUR_CLOUDFLARE_API_TOKEN",
+      "CF-Account-ID": "YOUR_CLOUDFLARE_ACCOUNT_ID"
+    }
+  },
+  "cloudflare-dns-analytics": {
+    "type": "http",
+    "url": "https://dns-analytics.mcp.cloudflare.com/mcp",
+    "headers": {
+      "Authorization": "Bearer YOUR_CLOUDFLARE_API_TOKEN",
+      "CF-Account-ID": "YOUR_CLOUDFLARE_ACCOUNT_ID"
+    }
+  },
+  "cloudflare-dex": {
+    "type": "http",
+    "url": "https://dex.mcp.cloudflare.com/mcp",
+    "headers": {
+      "Authorization": "Bearer YOUR_CLOUDFLARE_API_TOKEN",
+      "CF-Account-ID": "YOUR_CLOUDFLARE_ACCOUNT_ID"
+    }
+  },
+  "cloudflare-casb": {
+    "type": "http",
+    "url": "https://casb.mcp.cloudflare.com/mcp",
+    "headers": {
+      "Authorization": "Bearer YOUR_CLOUDFLARE_API_TOKEN",
+      "CF-Account-ID": "YOUR_CLOUDFLARE_ACCOUNT_ID"
+    }
+  },
+  "cloudflare-graphql": {
+    "type": "http",
+    "url": "https://graphql.mcp.cloudflare.com/mcp",
+    "headers": {
+      "Authorization": "Bearer YOUR_CLOUDFLARE_API_TOKEN",
+      "CF-Account-ID": "YOUR_CLOUDFLARE_ACCOUNT_ID"
+    }
+  }
+}
