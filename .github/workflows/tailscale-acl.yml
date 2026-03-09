@@ -20,8 +20,9 @@ jobs:
       - name: Test ACL
         uses: tailscale/gitops-acl-action@v1
         with:
-          api-client-id: ${{ secrets.TS_API_CLIENT_ID }}
-          api-client-secret: ${{ secrets.TS_API_CLIENT_SECRET }}
+          tailnet: ZZiZiLY
+          oauth-client-id: ${{ secrets.TS_API_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_API_CLIENT_SECRET }}
           policy-file: policy.hujson
           action: test # PR 단계에서는 문법 및 정책 테스트만 수행
 
@@ -36,7 +37,8 @@ jobs:
       - name: Apply ACL
         uses: tailscale/gitops-acl-action@v1
         with:
-          api-client-id: ${{ secrets.TS_API_CLIENT_ID }}
-          api-client-secret: ${{ secrets.TS_API_CLIENT_SECRET }}
+          tailnet: ZZiZiLY
+          oauth-client-id: ${{ secrets.TS_API_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_API_CLIENT_SECRET }}
           policy-file: policy.hujson
           action: apply # 메인 브랜치 병합 시 실제 반영
