@@ -1,17 +1,17 @@
-# Tailscale ACL 프로젝트
+# Sylph 프로젝트
 
-Tailscale ACL 정책을 관리하고 문서화하는 프로젝트입니다.
+Sylph는 Tailscale ACL 정책을 관리하고 문서화하며 Cloudflare 도메인을 통합 관리하는 시스템입니다.
 
 ## 프로젝트 구조
 
 ```
-tailscale-acl/
+sylph/
 ├── policy.hujson          # Tailscale ACL 정책 파일 (HUJSON 형식)
 ├── scripts/
 │   └── generate-docs.sh   # ACL 문서 자동 생성 스크립트
 ├── .github/
 │   └── workflows/
-│       └── tailscale-acl.yml  # GitHub Actions 워크플로우
+│       └── sylph.yml          # GitHub Actions 워크플로우
 └── docs/
     └── plans/             # 프로젝트 계획 문서
 ```
@@ -28,7 +28,7 @@ tailscale-acl/
 - PR 주석 diff 생성 가능
 - 의존성: jq, json5 (Python 패키지)
 
-### .github/workflows/tailscale-acl.yml
+### .github/workflows/sylph.yml
 - policy.hujson 변경 시 자동으로 ACL 테스트 및 적용
 - PR 단계: 문법 및 정책 테스트만 수행
 - main 브랜치 병합 시: 실제 Tailscale에 ACL 적용
