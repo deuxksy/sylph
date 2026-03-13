@@ -10,13 +10,13 @@ graph TB
     subgraph "ZZiZiLY<br/>(bun-bull.ts.net)"
         subgraph "Mobile (tag:mobile)"
             M1[iPhone<br/>iOS]
-            M2[iPad<br/>iOS]
-            M3[Galuxy<br/>Android]
+            M2[pro<br/>iPad<br/>iOS]
+            M3[Galaxy<br/>Android]
         end
 
         subgraph "PC (tag:pc)"
             PC1[EVE<br/>macOS]
-            PC2[Surface<br/>Windows]
+            PC2[ava<br/>Surface<br/>Windows]
         end
 
         subgraph "Server (tag:server)"
@@ -66,9 +66,9 @@ graph TB
 | Girl | - | Linux | Server |
 | heritage | - | Linux | Docker, Ephemeral |
 | iPhone | - | iOS | Mobile |
-| iPad | - | iOS | Mobile |
+| **pro** (iPad) | - | iOS | Mobile |
 | Galaxy | - | Android | Mobile |
-| Surface | - | Windows | PC |
+| **ava** (Surface) | - | Windows | PC |
 
 ## Workflow
 
