@@ -1,5 +1,5 @@
 # Sylph - Network & Domain Management System
-
+[![ACL Documentation](https://github.com/deuxksy/sylph/actions/workflows/acl-docs.yml/badge.svg?branch=main)](https://github.com/deuxksy/sylph/actions/workflows/acl-docs.yml)
 Sylph는 Tailscale ACL 정책(`policy.hujson`)을 자동으로 문서화하고 Cloudflare(DNS)를 통한 도메인을 통합 관리하는 시스템입니다.
 
 ## Topology
