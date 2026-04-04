@@ -6,14 +6,14 @@
 	},
 
 	"tagOwners": {
-		"tag:https":    ["group:admin", "autogroup:admin"],
-		"tag:docker":   ["group:admin", "autogroup:admin"],
-		"tag:heritage": ["group:admin", "autogroup:admin"],
-		"tag:mobile":   ["group:admin", "autogroup:admin"],
-		"tag:server":   ["group:admin", "autogroup:admin"],
-		"tag:network":  ["group:admin", "autogroup:admin"],
-		"tag:pc":       ["group:admin", "autogroup:admin"],
-		"tag:ai":       ["group:admin", "autogroup:admin"],
+		"tag:https":    ["group:member", "group:develop", "group:admin", "autogroup:admin"],
+		"tag:docker":   ["group:member", "group:develop", "group:admin", "autogroup:admin"],
+		"tag:heritage": ["group:member", "group:develop", "group:admin", "autogroup:admin"],
+		"tag:mobile":   ["group:member", "group:develop", "group:admin", "autogroup:admin"],
+		"tag:server":   ["group:member", "group:develop", "group:admin", "autogroup:admin"],
+		"tag:network":  ["group:member", "group:develop", "group:admin", "autogroup:admin"],
+		"tag:pc":       ["group:member", "group:develop", "group:admin", "autogroup:admin"],
+		"tag:ai":       ["group:member", "group:develop", "group:admin", "autogroup:admin"],
 	},
 
 	"nodeAttrs": [
