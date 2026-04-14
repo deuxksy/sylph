@@ -13,8 +13,8 @@
 		"tag:server":   ["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:network":  ["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:pc":       ["group:member", "group:develop", "group:admin", "autogroup:admin"],
-		"tag:ai":       ["group:member", "group:develop", "group:admin", "autogroup:admin"],
-        "tag:kyolim":   ["group:member", "group:develop", "group:admin", "autogroup:admin"],
+		"tag:ai":       ["group:member", "group:develop", "group:admin", "autogroup:admin"],		
+		"tag:kyolim":   ["group:member", "group:develop", "group:admin", "autogroup:admin"],
 	},
 
 	"nodeAttrs": [
