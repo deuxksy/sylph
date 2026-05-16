@@ -13,18 +13,20 @@ graph TB
     subgraph "ZZiZiLY<br/>(bun-bull.ts.net)"
         subgraph "Mobile (tag:mobile)"
             M1[iPhone<br/>iOS]
-            M2[pro<br/>iPad<br/>iOS]
-            M3[Galaxy<br/>Android]
+            M2[ipad<br/>iOS]
+            M3[flip<br/>Android]
         end
 
         subgraph "PC (tag:pc)"
             PC1[EVE<br/>macOS]
-            PC2[ava<br/>Surface<br/>Windows]
+            PC2[ava<br/>Windows]
         end
 
         subgraph "Server (tag:server)"
             S1[Girl<br/>Linux]
             S2[WALL.E<br/>Linux<br/>🌐 Exit Node]
+            S3[axiom<br/>macOS]
+            S4[mo<br/>Linux]
         end
 
         subgraph "AI (tag:ai)"
@@ -37,41 +39,48 @@ graph TB
 
         subgraph "Network (tag:network)"
             I2[arv<br/>Linux<br/>🔌 Funnel<br/>🌐 Subnet Router]
+            I3[steward<br/>Linux]
+        end
+
+        subgraph "K8s (tag:k8s)"
+            K1[lllm<br/>Linux]
+        end
+
+        subgraph "K8s Operator (tag:k8s-operator)"
+            KO1[tailscale-operator<br/>Linux]
+        end
+
+        subgraph "kyolim (tag:kyolim)"
+            KY1[kyolim<br/>Windows]
         end
     end
 
     Internet((🌐 Internet)) ==>|Funnel 443| I2
-    %% Tailnet devices access LAN via arv
     I2 ==>|Subnet| LAN[🏠 LAN<br/>192.168.1.0/24<br/>192.168.8.0/24]
-    %% Tailnet uses NextDNS for DNS resolution
     DNS[🌐 NextDNS 6cc36a]
 
-    style M1 fill:#e1f5fe
-    style M2 fill:#e1f5fe
-    style M3 fill:#e1f5fe
-    style PC1 fill:#f3e5f5
-    style PC2 fill:#f3e5f5
-    style S1 fill:#fff3e0
-    style S2 fill:#ffebee
-    style AI1 fill:#e3f2fd
-    style I1 fill:#e8f5e9
-    style I2 fill:#e8f5e9
 ```
 
 ## Hardware Specs
 
 | 장비 | 하드웨어 | OS | 특이사항 |
 |------|----------|-----|----------|
-| **EVE** | Mac Mini 2024, M4, 16GB | macOS | 전기양 서버 |
-| **WALL.E** | Intel N100, 8GB | Fedora 43 | 🌐 Exit Node |
-| **arv** | ARMv8, 512MB | OpenWrt | 🔌 Funnel, Subnet Router |
-| **ai** | - | Linux | 🤖 Aperture, LLM Gateway |
-| Girl | - | Linux | Server |
-| heritage | - | Linux | Docker, Ephemeral |
-| iPhone | - | iOS | Mobile |
-| **pro** (iPad) | - | iOS | Mobile |
-| Galaxy | - | Android | Mobile |
-| **ava** (Surface) | - | Windows | PC |
+| **axiom** | Mac Mini 2024, M4, 16GB | macOS | tag:server |
+| **EVE** | - | macOS | tag:pc |
+| **WALL.E** | Intel N100, 8GB | Linux | 🌐 Exit Node, tag:server |
+| **mo** | - | Linux | NixOS, tag:server |
+| **arv** | ARMv8, 512MB | OpenWrt | 🔌 Funnel, Subnet Router, tag:network, tag:https |
+| **steward** | - | Linux | tag:network |
+| **ai** | - | Linux | 🤖 Aperture, LLM Gateway, tag:ai |
+| Girl | - | Linux | tag:server |
+| heritage | - | Linux | Docker, Ephemeral, tag:docker |
+| lllm | - | Linux | tag:k8s |
+| tailscale-operator | - | Linux | tag:k8s-operator |
+| iPhone | - | iOS | tag:mobile |
+| ipad | - | iOS | tag:mobile |
+| flip | - | Android | tag:mobile |
+| ava | - | Windows | tag:pc |
+| kyolim | - | Windows | tag:kyolim |
 
 ## Workflow
 
