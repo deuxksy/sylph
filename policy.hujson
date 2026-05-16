@@ -1,14 +1,14 @@
 {
 	"groups": {
-		"group:admin":   	["ksymailing@gmail.com"],
-		"group:member":  	["azc2004@gmail.com"],
-		"group:develop": 	["deuxksy@gmail.com"],
+		"group:admin":   ["ksymailing@gmail.com"],
+		"group:member":  ["azc2004@gmail.com"],
+		"group:develop": ["deuxksy@gmail.com"],
 	},
 
 	"tagOwners": {
 		"tag:https":    	["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:docker":   	["group:member", "group:develop", "group:admin", "autogroup:admin"],
-		"tag:k8s":      	["group:member", "group:develop", "group:admin", "autogroup:admin"],
+		"tag:k8s-pod":      ["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:k8s-operator": ["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:heritage": 	["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:mobile":   	["group:member", "group:develop", "group:admin", "autogroup:admin"],
