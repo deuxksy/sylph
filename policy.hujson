@@ -8,6 +8,7 @@
 	"tagOwners": {
 		"tag:https":    ["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:docker":   ["group:member", "group:develop", "group:admin", "autogroup:admin"],
+        "tag:k8s":      ["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:heritage": ["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:mobile":   ["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:server":   ["group:member", "group:develop", "group:admin", "autogroup:admin"],
