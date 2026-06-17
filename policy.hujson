@@ -15,6 +15,9 @@
 		"tag:server":   	["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:network":  	["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:pc":       	["group:member", "group:develop", "group:admin", "autogroup:admin"],
+        "tag:windows":      ["group:member", "group:develop", "group:admin", "autogroup:admin"],
+        "tag:mac":       	["group:member", "group:develop", "group:admin", "autogroup:admin"],
+        "tag:linux":       	["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:ai":       	["group:member", "group:develop", "group:admin", "autogroup:admin"],		
 		"tag:kyolim":   	["group:member", "group:develop", "group:admin", "autogroup:admin"],
         "tag:oci":   	    ["group:member", "group:develop", "group:admin", "autogroup:admin"],
@@ -35,7 +38,7 @@
 		},
 		{
 			// tag:server 와 tag:pc로부터 파일을 받을 수 있게 허용
-			"target": ["tag:server", "tag:pc"],
+			"target": ["tag:server", "tag:pc", "tag:mobile", "tag:oci"],
 			"attr":   ["tailscale.com/cap/file-sharing"],
 		},
 	],
