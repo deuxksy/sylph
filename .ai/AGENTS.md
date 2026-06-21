@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Sylph는 Tailscale ACL 정책(`policy.hujson`)을 관리·문서화하고 Cloudflare 도메인을 통합 관리하는 시스템. Tailnet: `TY1qnFMXke11CNTRL`.
+Sylph는 Tailscale ACL 정책(`policy.hujson`)을 관리·문서화하는 시스템. Tailnet: `TY1qnFMXke11CNTRL`.
 
 ## Key Commands
 
@@ -33,6 +33,7 @@ Dependencies: `jq`, `python3` + `json5` (`pip install json5`)
 - Sections: `groups` → `tagOwners` → `nodeAttrs` → `acls` → `ssh`
 - `nodeAttrs`: funnel 포트 제한(443만), tag:server/pc 파일 공유 허용
 - ACL 변경은 Tailnet 전체에 즉시 영향 → 신중하게 수정
+- Tags: `https`, `docker`, `k8s`, `k8s-operator`, `heritage`, `mobile`, `server`, `network`, `pc`, `ai`, `kyolim`
 
 ### 산출물
 - `docs/acl.md` — ACL 정책 문서 (자동 생성)
