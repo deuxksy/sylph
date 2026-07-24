@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-> **참고:** `CLAUDE.md`는 `.ai/AGENTS.md`의 심볼릭 링크이다.
+> **참고:** `CLAUDE.md`는 `.ai/RULES.md`의 심볼릭 링크이다.
 
 ## Project Overview
 
