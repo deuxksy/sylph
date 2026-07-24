@@ -53,9 +53,17 @@ Dependencies: `jq`, `python3` + `json5` (`pip install json5`)
 - 사용: `./scripts/tag-device.sh <hostname> <tag> [--replace]`
 - OAuth client 발급 시 scope `Devices: Write` 필요
 
+### opentofu/
+- `tailscale_acl`: `policy.hujson`을 `file()`로 참조해 tailnet policy 관리
+- `tailscale_device_tags`: 디바이스 tag 선언 관리 (전체 교체 — 선언된 resource가 tag의 유일한 owner)
+- State: Cloudflare R2 `terraform-state` bucket, key `sylph/main/terraform.tfstate`, `use_lockfile`
+- 자격증명: `.env.sops` (TS OAuth + R2 키)를 `scripts/tofu.sh`가 주입
+- 사용: `./scripts/tofu.sh plan|apply|import ...`
+
 ### GitHub Actions (2개 워크플로우)
-- **tailscale-acl.yml**: PR에서 ACL test → main push 시 ACL apply (`tailscale/gitops-acl-action@v1`)
+- **tailscale-acl.yml**: PR/push 시 ACL **test(validation)만** 실행 (`tailscale/gitops-acl-action@v1`, `action: test`)
 - **acl-docs.yml**: PR에서 문서 생성 후 PR 코멘트로 결과 게시
+- ACL apply는 OpenTofu(`./scripts/tofu.sh apply`)가 담당 — Actions에서 apply하지 않음
 - Secrets: `TS_API_CLIENT_ID`, `TS_API_CLIENT_SECRET` 필요
 
 ### MCP Servers (.mcp.json.example)
@@ -66,5 +74,5 @@ Cloudflare(다중 서비스: docs/bindings/builds/observability/radar 등), Glob
 1. `policy.hujson` 수정
 2. `./scripts/generate-docs.sh` 실행 → `docs/acl.md` 확인
 3. 커밋 + PR 생성
-4. GitHub Actions: ACL test + 문서 코멘트 자동 실행
-5. main 병합 시에만 실제 Tailscale에 apply
+4. GitHub Actions: ACL test(validation) + 문서 코멘트 자동 실행
+5. main 병합 후 로컬에서 `./scripts/tofu.sh plan` 확인 → `./scripts/tofu.sh apply`

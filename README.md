@@ -123,18 +123,22 @@ graph LR
 ### GitHub Actions
 
 PR이 생성되거나 `policy.hujson`이 변경되면 자동으로 PR에 변경사항 코멘트가 생성됩니다.
+ACL의 실제 적용(apply)은 로컬에서 OpenTofu로 수행합니다: `./scripts/tofu.sh plan && ./scripts/tofu.sh apply`
 
 ## 파일 구조
 
 ```
 .
 ├── policy.hujson              # ACL 정책 파일
+├── opentofu/                  # OpenTofu tailnet 관리 (ACL apply, device tags)
 ├── scripts/
-│   └── generate-docs.sh       # 문서 생성 스크립트
+│   ├── generate-docs.sh       # 문서 생성 스크립트
+│   ├── tag-device.sh          # API tag 부여 (OpenTofu 미관리 디바이스용 fallback)
+│   └── tofu.sh                # OpenTofu 실행 wrapper (sops 자격증명 주입)
 ├── docs/
 │   └── acl.md                 # 생성된 문서
 └── .github/workflows/
-    ├── tailscale-acl.yml      # ACL 적용 워크플로우
+    ├── tailscale-acl.yml      # ACL validation 워크플로우 (test only)
     └── acl-docs.yml           # 문서화 워크플로우
 ```
 
