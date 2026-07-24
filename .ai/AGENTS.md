@@ -31,9 +31,9 @@ Dependencies: `jq`, `python3` + `json5` (`pip install json5`)
 ### policy.hujson
 - HUJSON 형식 (주석 `//`, 후행 콤마 허용)
 - Sections: `groups` → `tagOwners` → `nodeAttrs` → `acls` → `ssh`
-- `nodeAttrs`: funnel 포트 제한(443만), tag:server/pc 파일 공유 허용
+- `nodeAttrs`: funnel 포트 제한(443만), tag:server/pc/mobile/projector 파일 공유 허용
 - ACL 변경은 Tailnet 전체에 즉시 영향 → 신중하게 수정
-- Tags: `https`, `docker`, `k8s`, `k8s-operator`, `heritage`, `mobile`, `server`, `network`, `pc`, `ai`, `kyolim`
+- Tags: `https`, `docker`, `k8s`, `k8s-operator`, `heritage`, `mobile`, `server`, `network`, `pc`, `windows`, `mac`, `linux`, `ai`, `kyolim`, `oci`, `projector`
 
 ### 산출물
 - `docs/acl.md` — ACL 정책 문서 (자동 생성)
@@ -45,6 +45,13 @@ Dependencies: `jq`, `python3` + `json5` (`pip install json5`)
 - Markdown 생성: groups/tags/acls/ssh 테이블 + Mermaid 다이어그램
 - PR 코멘트: `--pr-comment` 시 `.pr-comment.md`에 diff 요약 생성
 - **주의:** `main()` 함수가 두 번 정의됨 (430행, 556행). 두 번째가 실제 실행됨 — `--pr-comment` 플래그 처리는 두 번째 `main()`에만 있음
+
+### scripts/tag-device.sh
+- Tailscale API(OAuth client)로 디바이스에 tag 부여
+- 안드로이드/iOS 등 CLI 불가 기기 tag 적용 목적
+- sops 암호화된 `.env.sops`에서 `TS_API_CLIENT_ID`/`TS_API_CLIENT_SECRET` 로드
+- 사용: `./scripts/tag-device.sh <hostname> <tag> [--replace]`
+- OAuth client 발급 시 scope `Devices: Write` 필요
 
 ### GitHub Actions (2개 워크플로우)
 - **tailscale-acl.yml**: PR에서 ACL test → main push 시 ACL apply (`tailscale/gitops-acl-action@v1`)

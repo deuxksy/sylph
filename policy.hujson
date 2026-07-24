@@ -12,6 +12,7 @@
 		"tag:k8s-operator": ["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:heritage": 	["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:mobile":   	["group:member", "group:develop", "group:admin", "autogroup:admin"],
+		"tag:projector":   ["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:server":   	["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:network":  	["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:pc":       	["group:member", "group:develop", "group:admin", "autogroup:admin"],
@@ -38,7 +39,7 @@
 		},
 		{
 			// tag:server 와 tag:pc로부터 파일을 받을 수 있게 허용
-			"target": ["tag:server", "tag:pc", "tag:mobile", "tag:oci"],
+			"target": ["tag:server", "tag:pc", "tag:mobile", "tag:oci", "tag:projector"],
 			"attr":   ["tailscale.com/cap/file-sharing"],
 		},
 	],
