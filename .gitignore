@@ -29,3 +29,9 @@ Thumbs.db
 
 # Claude Code worktrees
 .claude/
+
+# OpenTofu
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
