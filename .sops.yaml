@@ -1,0 +1,6 @@
+creation_rules:
+  # 프로젝트 시크릿 (Tailscale API 등) — age 글로벌 키로 암호화
+  - path_regex: \.env(\.sops)?$
+    age: age1qw643dna4spaup6sr5ap0jf039ncjd54e8ekvrfy6p6x96ys2y4qn5vcsy
+  - path_regex: ^secrets/.*$
+    age: age1qw643dna4spaup6sr5ap0jf039ncjd54e8ekvrfy6p6x96ys2y4qn5vcsy

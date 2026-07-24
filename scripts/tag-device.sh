@@ -67,10 +67,10 @@ fi
 # tag: prefix 정규화
 TAG="tag:${TAG#tag:}"
 
-# sops 복호화 후 환경변수 로드 (평문 .env는 .gitignore에 등록됨)
+# sops 복호화 후 환경변수 로드 (binary 암호화된 .env.sops → 임시 파일에 복호화 후 source)
 if [[ ! -f "$ENV_FILE" ]]; then
     echo "Error: encrypted env file not found: $ENV_FILE" >&2
-    echo "Run: sops -e .env > $ENV_FILE" >&2
+    echo "Run: sops -e --input-type binary .env > $ENV_FILE && rm .env" >&2
     exit 1
 fi
 
@@ -79,9 +79,18 @@ if ! command -v sops >/dev/null 2>&1; then
     exit 1
 fi
 
-set +a
-eval "$(sops -d "$ENV_FILE")"
+# binary 모드로 암호화된 파일은 input dotenv / output binary로 복호화
+ENV_TMP=$(mktemp)
+trap 'rm -f "$ENV_TMP"' EXIT
+if ! sops -d --input-type dotenv --output-type binary "$ENV_FILE" > "$ENV_TMP" 2>/dev/null; then
+    echo "Error: sops decryption failed for $ENV_FILE" >&2
+    exit 1
+fi
 set -a
+# shellcheck disable=SC1090
+source "$ENV_TMP"
+set +a
+rm -f "$ENV_TMP"
 
 if [[ -z "${TS_API_CLIENT_ID:-}" || -z "${TS_API_CLIENT_SECRET:-}" ]]; then
     echo "Error: TS_API_CLIENT_ID / TS_API_CLIENT_SECRET missing in $ENV_FILE" >&2
@@ -120,16 +129,16 @@ DEVICES=$(curl -sS -f "${API_BASE}/tailnet/${TAILNET}/devices" \
     }
 
 NODE_ID=$(echo "$DEVICES" | jq -r --arg h "$HOSTNAME" \
-    '.devices[] | select(.hostname == $h) | .nodeId' | head -n1)
+    '.devices[] | select(.hostname == $h or (.name | split(".")[0]) == $h) | .nodeId' | head -n1)
 
 if [[ -z "$NODE_ID" ]]; then
     echo "Error: device not found: $HOSTNAME" >&2
-    echo "Available devices:" >&2
-    echo "$DEVICES" | jq -r '.devices[].hostname' | sed 's/^/  - /' >&2
+    echo "Available devices (hostname / custom name):" >&2
+    echo "$DEVICES" | jq -r '.devices[] | "  - \(.hostname) / \(.name | split(".")[0])"' >&2
     exit 1
 fi
 CURRENT_TAGS=$(echo "$DEVICES" | jq -r --arg h "$HOSTNAME" \
-    '.devices[] | select(.hostname == $h) | .tags // [] | join(", ")')
+    '.devices[] | select(.hostname == $h or (.name | split(".")[0]) == $h) | .tags // [] | join(", ")')
 echo "✓ Found: nodeId=$NODE_ID, current tags=[${CURRENT_TAGS}]"
 
 # 3. tag 병합 또는 교체 (jq로 JSON 생성하여 injection 방지)
@@ -138,14 +147,14 @@ if $REPLACE; then
     echo "ℹ️  Replacing tags with: [$TAG]"
 else
     NEW_TAGS=$(echo "$DEVICES" | jq -c --arg h "$HOSTNAME" --arg t "$TAG" \
-        '(.devices[] | select(.hostname == $h) | .tags // []) + [$t] | unique')
+        '(.devices[] | select(.hostname == $h or (.name | split(".")[0]) == $h) | .tags // []) + [$t] | unique')
     echo "ℹ️  Merging tags: $(echo "$NEW_TAGS" | jq -c '.')"
 fi
 
-# 4. tag 부여 (POST /device/{nodeId}) — body도 jq로 생성하여 파이프
+# 4. tag 부여 (POST /device/{nodeId}/tags) — body도 jq로 생성하여 파이프
 echo "ℹ️  Applying tags to $HOSTNAME..."
 RESPONSE=$(jq -n --argjson tags "$NEW_TAGS" '{"tags": $tags}' | \
-    curl -sS -w "\n%{http_code}" -X POST "${API_BASE}/device/${NODE_ID}" \
+    curl -sS -w "\n%{http_code}" -X POST "${API_BASE}/device/${NODE_ID}/tags" \
     -H "Authorization: Bearer ${ACCESS_TOKEN}" \
     -H "Content-Type: application/json" \
     -d @- \
@@ -158,8 +167,7 @@ HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
 BODY=$(echo "$RESPONSE" | sed '$d')
 
 if [[ "$HTTP_CODE" == "200" ]]; then
-    APPLIED=$(echo "$BODY" | jq -r '.tags // [] | join(", ")')
-    echo "✓ Tags applied: [$APPLIED]"
+    echo "✓ Tags applied: $(echo "$NEW_TAGS" | jq -c '.')"
     echo "✓ Done: $HOSTNAME → $TAG"
 else
     echo "Error: HTTP $HTTP_CODE" >&2
