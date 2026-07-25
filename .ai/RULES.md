@@ -49,7 +49,7 @@ Dependencies: `jq`, `python3` + `json5` (`pip install json5`)
 ### scripts/tag-device.sh
 - Tailscale API(OAuth client)로 디바이스에 tag 부여
 - 안드로이드/iOS 등 CLI 불가 기기 tag 적용 목적
-- sops 암호화된 `.env.sops`에서 `TS_API_CLIENT_ID`/`TS_API_CLIENT_SECRET` 로드
+- sops 암호화된 `.env.sops`에서 `TS_OAUTH_CLIENT_ID`/`TS_OAUTH_CLIENT_SECRET` 로드 (`TS_API_CLIENT_*`는 레거시 alias로 호환)
 - 사용: `./scripts/tag-device.sh <hostname> <tag> [--replace]`
 - OAuth client 발급 시 scope `Devices: Write` 필요
 
@@ -57,7 +57,7 @@ Dependencies: `jq`, `python3` + `json5` (`pip install json5`)
 - `tailscale_acl`: `policy.hujson`을 `file()`로 참조해 tailnet policy 관리
 - `tailscale_device_tags`: 디바이스 tag 선언 관리 (전체 교체 — 선언된 resource가 tag의 유일한 owner)
 - State: Cloudflare R2 `terraform-state` bucket, key `sylph/main/terraform.tfstate`, `use_lockfile`
-- 자격증명: `.env.sops`의 `TS_API_CLIENT_ID`/`TS_API_CLIENT_SECRET` + R2용 `AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY`를 `scripts/tofu.sh`가 주입 (없으면 에러 종료)
+- 자격증명: `.env.sops`의 `TS_OAUTH_CLIENT_ID`/`TS_OAUTH_CLIENT_SECRET` + R2용 `AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY`를 `scripts/tofu.sh`가 주입 (없으면 에러 종료)
 - 필요 도구: `tofu`, `sops` (+ age key)
 - 사용: `./scripts/tofu.sh plan|apply|import ...`
 
