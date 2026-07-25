@@ -9,78 +9,84 @@ Sylph는 Tailscale ACL 정책(`policy.hujson`)을 자동으로 문서화하고 C
 
 ```mermaid
 graph TB
-
-    subgraph "ZZiZiLY<br/>(bun-bull.ts.net)"
+    subgraph "Tailnet: ksymailing@gmail.com"
         subgraph "Mobile (tag:mobile)"
-            M1[iPhone<br/>iOS]
-            M2[ipad<br/>iOS]
-            M3[flip<br/>Android]
+            M1[13-mini<br/>iOS]
+            M2[pro<br/>iOS]
+            M3[z-5<br/>Android]
         end
 
         subgraph "PC (tag:pc)"
-            PC1[EVE<br/>macOS]
-            PC2[ava<br/>Windows]
+            PC1[eve<br/>macOS]
+            PC2[Surface<br/>Windows]
         end
 
         subgraph "Server (tag:server)"
-            S1[Girl<br/>Linux]
-            S2[WALL.E<br/>Linux<br/>🌐 Exit Node]
-            S3[axiom<br/>macOS]
-            S4[mo<br/>Linux]
+            S1[girl<br/>Linux]
+            S2[walle<br/>Linux<br/>Exit Node]
         end
 
-        subgraph "AI (tag:ai)"
-            AI1[ai<br/>Linux<br/>🤖 Aperture<br/>LLM Gateway]
-        end
-
-        subgraph "Docker (tag:docker)"
-            I1[heritage<br/>Linux<br/>🔌 Serve<br/>⚡ Ephemeral]
-        end
-
-        subgraph "Network (tag:network)"
-            I2[arv<br/>Linux<br/>🔌 Funnel<br/>🌐 Subnet Router]
+        subgraph "Infrastructure"
+            I1[heritage<br/>Linux<br/>tag:docker]
+            I2[arv<br/>Linux<br/>tag:https, tag:network<br/>Subnet Router]
             I3[steward<br/>Linux]
-        end
-
-        subgraph "K8s (tag:k8s)"
-            K1[lllm<br/>Linux]
-        end
-
-        subgraph "K8s Operator (tag:k8s-operator)"
-            KO1[tailscale-operator<br/>Linux]
-        end
-
-        subgraph "kyolim (tag:kyolim)"
-            KY1[kyolim<br/>Windows]
         end
     end
 
-    Internet((🌐 Internet)) ==>|Funnel 443| I2
-    I2 ==>|Subnet| LAN[🏠 LAN<br/>192.168.1.0/24<br/>192.168.8.0/24]
-    DNS[🌐 NextDNS 6cc36a]
+    M1 & M2 & M3 -.->|Mesh VPN| PC1
+    M1 & M2 & M3 -.->|Mesh VPN| PC2
+    M1 & M2 & M3 -.->|Mesh VPN| S1
+    M1 & M2 & M3 -.->|Mesh VPN| S2
+    M1 & M2 & M3 -.->|Mesh VPN| I1
+    M1 & M2 & M3 -.->|Mesh VPN| I2
 
+    PC1 -.->|Mesh VPN| S1
+    PC1 -.->|Mesh VPN| S2
+    PC1 -.->|Mesh VPN| I1
+    PC1 -.->|Mesh VPN| I2
+
+    PC2 -.->|Mesh VPN| S1
+    PC2 -.->|Mesh VPN| S2
+    PC2 -.->|Mesh VPN| I1
+    PC2 -.->|Mesh VPN| I2
+
+    S1 -.->|Mesh VPN| S2
+    S1 -.->|Mesh VPN| I1
+    S1 -.->|Mesh VPN| I2
+
+    S2 -.->|Mesh VPN| I1
+    S2 -.->|Mesh VPN| I2
+
+    I1 -.->|Mesh VPN| I2
+
+    S2 ==>|Exit Node| Internet((🌐 Internet))
+    I2 ==>|Subnet Routes| LAN[192.168.1.0/24<br/>192.168.8.0/24]
+
+    style M1 fill:#e1f5fe
+    style M2 fill:#e1f5fe
+    style M3 fill:#e1f5fe
+    style PC1 fill:#f3e5f5
+    style PC2 fill:#f3e5f5
+    style S1 fill:#fff3e0
+    style S2 fill:#ffebee
+    style I1 fill:#e8f5e9
+    style I2 fill:#e8f5e9
 ```
 
 ## Hardware Specs
 
 | 장비 | 하드웨어 | OS | 특이사항 |
 |------|----------|-----|----------|
-| **axiom** | Mac Mini 2024, M4, 16GB | macOS | tag:server |
-| **EVE** | - | macOS | tag:pc |
-| **WALL.E** | Intel N100, 8GB | Linux | 🌐 Exit Node, tag:server |
-| **mo** | - | Linux | NixOS, tag:server |
-| **arv** | ARMv8, 512MB | OpenWrt | 🔌 Funnel, Subnet Router, tag:network, tag:https |
-| **steward** | - | Linux | tag:network |
-| **ai** | - | Linux | 🤖 Aperture, LLM Gateway, tag:ai |
-| Girl | - | Linux | tag:server |
-| heritage | - | Linux | Docker, Ephemeral, tag:docker |
-| lllm | - | Linux | tag:k8s |
-| tailscale-operator | - | Linux | tag:k8s-operator |
-| iPhone | - | iOS | tag:mobile |
-| ipad | - | iOS | tag:mobile |
-| flip | - | Android | tag:mobile |
-| ava | - | Windows | tag:pc |
-| kyolim | - | Windows | tag:kyolim |
+| 13-mini | - | iOS | tag:mobile |
+| pro | - | iOS | tag:mobile |
+| z-5 | - | Android | tag:mobile |
+| eve | - | macOS | tag:pc |
+| Surface | - | Windows | tag:pc |
+| girl | - | Linux | tag:server |
+| walle | - | Linux | Exit Node, tag:server |
+| heritage | - | Linux | tag:docker |
+| arv | - | Linux | tag:https, tag:network, Subnet Router |
+| steward | - | Linux | tag:network |
 
 ## Workflow
 
