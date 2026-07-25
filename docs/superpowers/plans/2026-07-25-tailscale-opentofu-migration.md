@@ -29,7 +29,7 @@
 - Create: 없음 (검증 전용, 결과는 터미널 출력으로 기록)
 
 **Interfaces:**
-- Consumes: 기존 `.env.sops` (TS_API_CLIENT_ID/SECRET)
+- Consumes: 기존 `.env.sops` (TS_OAUTH_CLIENT_ID/SECRET, `TS_API_CLIENT_*`는 레거시 alias)
 - Produces: baseline 확인 결과 — OAuth scope OK, live policy 일치, projector tag 상태
 
 - [ ] **Step 1: OAuth token 발급 + scope 검증 (`GET .../acl`)**
@@ -273,7 +273,7 @@ rm .env
 sops -d --input-type dotenv --output-type binary .env.sops | sed 's/=.*/=<OK>/'
 ```
 
-Expected: 4개 키 모두 `=<OK>`로 출력 (`TS_API_CLIENT_ID`, `TS_API_CLIENT_SECRET`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`).
+Expected: 4개 키 모두 `=<OK>`로 출력 (`TS_OAUTH_CLIENT_ID`, `TS_OAUTH_CLIENT_SECRET`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`).
 
 - [ ] **Step 4: `tofu init`**
 
@@ -407,7 +407,7 @@ Expected: `YAML OK`.
 - **tailscale-acl.yml**: PR/push 시 ACL **test(validation)만** 실행 (`tailscale/gitops-acl-action@v1`, `action: test`)
 - **acl-docs.yml**: PR에서 문서 생성 후 PR 코멘트로 결과 게시
 - ACL apply는 OpenTofu(`./scripts/tofu.sh apply`)가 담당 — Actions에서 apply하지 않음
-- Secrets: `TS_API_CLIENT_ID`, `TS_API_CLIENT_SECRET` 필요
+- Secrets: `TS_OAUTH_CLIENT_ID`, `TS_OAUTH_CLIENT_SECRET` 필요
 ```
 
 - [ ] **Step 4: `.ai/RULES.md` 갱신 — Architecture에 opentofu 섹션 추가**

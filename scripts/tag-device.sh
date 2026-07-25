@@ -25,8 +25,9 @@ Options:
   -h, --help             Show this help message
 
 Environment (loaded from sops-encrypted .env.sops):
-  TS_API_CLIENT_ID       Tailscale OAuth client ID (scope: devices:write)
-  TS_API_CLIENT_SECRET   Tailscale OAuth client secret
+  TS_OAUTH_CLIENT_ID       Tailscale OAuth client ID (scope: devices:write)
+  TS_OAUTH_CLIENT_SECRET   Tailscale OAuth client secret
+  # Legacy aliases accepted: TS_API_CLIENT_ID / TS_API_CLIENT_SECRET
 
 Examples:
   $(basename "$0") projector projector

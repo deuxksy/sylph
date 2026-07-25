@@ -150,8 +150,8 @@ trap 'rm -f "$ENV_TMP"' EXIT
 sops -d --input-type dotenv --output-type binary ../.env.sops > "$ENV_TMP"
 set -a; source "$ENV_TMP"; set +a
 
-export TAILSCALE_OAUTH_CLIENT_ID="$TS_API_CLIENT_ID"
-export TAILSCALE_OAUTH_CLIENT_SECRET="$TS_API_CLIENT_SECRET"
+export TAILSCALE_OAUTH_CLIENT_ID="$TS_OAUTH_CLIENT_ID"
+export TAILSCALE_OAUTH_CLIENT_SECRET="$TS_OAUTH_CLIENT_SECRET"
 export TAILSCALE_TAILNET="TY1qnFMXke11CNTRL"
 
 tofu "$@"
@@ -159,11 +159,11 @@ tofu "$@"
 
 ### .env.sops 확장
 
-기존 `TS_API_CLIENT_ID` / `TS_API_CLIENT_SECRET`에 R2 키 추가:
+기존 `TS_OAUTH_CLIENT_ID` / `TS_OAUTH_CLIENT_SECRET`에 R2 키 추가 (`TS_API_CLIENT_*`는 레거시 alias로 호환):
 
 ```text
-TS_API_CLIENT_ID=...
-TS_API_CLIENT_SECRET=...
+TS_OAUTH_CLIENT_ID=...
+TS_OAUTH_CLIENT_SECRET=...
 AWS_ACCESS_KEY_ID=...        # R2 access key
 AWS_SECRET_ACCESS_KEY=...    # R2 secret key
 ```
