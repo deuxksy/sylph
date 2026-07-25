@@ -31,7 +31,7 @@ Dependencies: `jq`, `python3` + `json5` (`pip install json5`)
 ### policy.hujson
 - HUJSON 형식 (주석 `//`, 후행 콤마 허용)
 - Sections: `groups` → `tagOwners` → `nodeAttrs` → `acls` → `ssh`
-- `nodeAttrs`: funnel 포트 제한(443만), tag:server/pc/mobile/projector 파일 공유 허용
+- `nodeAttrs`: funnel 포트 제한(443만), tag:server/pc/mobile/oci/projector 파일 공유 허용
 - ACL 변경은 Tailnet 전체에 즉시 영향 → 신중하게 수정
 - Tags: `https`, `docker`, `k8s`, `k8s-operator`, `heritage`, `mobile`, `server`, `network`, `pc`, `windows`, `mac`, `linux`, `ai`, `kyolim`, `oci`, `projector`
 
@@ -57,8 +57,13 @@ Dependencies: `jq`, `python3` + `json5` (`pip install json5`)
 - `tailscale_acl`: `policy.hujson`을 `file()`로 참조해 tailnet policy 관리
 - `tailscale_device_tags`: 디바이스 tag 선언 관리 (전체 교체 — 선언된 resource가 tag의 유일한 owner)
 - State: Cloudflare R2 `terraform-state` bucket, key `sylph/main/terraform.tfstate`, `use_lockfile`
-- 자격증명: `.env.sops` (TS OAuth + R2 키)를 `scripts/tofu.sh`가 주입
+- 자격증명: `.env.sops`의 `TS_API_CLIENT_ID`/`TS_API_CLIENT_SECRET` + R2용 `AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY`를 `scripts/tofu.sh`가 주입 (없으면 에러 종료)
+- 필요 도구: `tofu`, `sops` (+ age key)
 - 사용: `./scripts/tofu.sh plan|apply|import ...`
+
+### .env.sops
+- 비정형 구조: 전체 내용이 `data` 키 하나에 암호화됨 → `sops -d .env.sops`는 실패
+- 수동 복호화: `sops -d --input-type dotenv --output-type binary .env.sops > .env`
 
 ### GitHub Actions (2개 워크플로우)
 - **tailscale-acl.yml**: PR/push 시 ACL **test(validation)만** 실행 (`tailscale/gitops-acl-action@v1`, `action: test`)
