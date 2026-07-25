@@ -19,7 +19,7 @@ on:
         default: 'false'
 
 env:
-  OPENTOFU_VERSION: '1.8.0'
+  OPENTOFU_VERSION: '1.12.5'
 
 jobs:
   plan:
