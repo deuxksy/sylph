@@ -3,7 +3,7 @@ name: ACL Documentation
 on:
   pull_request:
     paths:
-      - 'opentofu/policy.hujson'
+      - 'policy.hujson'
   workflow_dispatch:
 
 permissions:
@@ -28,7 +28,7 @@ jobs:
       - name: Generate documentation
         run: |
           chmod +x scripts/generate-docs.sh
-          ./scripts/generate-docs.sh -p opentofu/policy.hujson --pr-comment --verbose
+          ./scripts/generate-docs.sh -p policy.hujson --pr-comment --verbose
 
       - name: PR Comment
         if: github.event_name == 'pull_request' && github.event.number != ''
