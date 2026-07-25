@@ -37,7 +37,7 @@
 ```bash
 set -a; source <(sops -d --input-type dotenv --output-type binary .env.sops); set +a
 TOKEN=$(curl -sS -X POST "https://api.tailscale.com/api/v2/oauth/token" \
-  -u "${TS_API_CLIENT_ID}:${TS_API_CLIENT_SECRET}" \
+  -u "${TS_OAUTH_CLIENT_ID}:${TS_OAUTH_CLIENT_SECRET}" \
   -d "grant_type=client_credentials" | jq -r '.access_token')
 curl -sS -o /tmp/live-acl.json -w "%{http_code}" \
   "https://api.tailscale.com/api/v2/tailnet/TY1qnFMXke11CNTRL/acl" \
@@ -191,8 +191,8 @@ if [[ -z "${AWS_ACCESS_KEY_ID:-}" || -z "${AWS_SECRET_ACCESS_KEY:-}" ]]; then
     exit 1
 fi
 
-export TAILSCALE_OAUTH_CLIENT_ID="$TS_API_CLIENT_ID"
-export TAILSCALE_OAUTH_CLIENT_SECRET="$TS_API_CLIENT_SECRET"
+export TAILSCALE_OAUTH_CLIENT_ID="${TS_OAUTH_CLIENT_ID:-$TS_API_CLIENT_ID}"
+export TAILSCALE_OAUTH_CLIENT_SECRET="${TS_OAUTH_CLIENT_SECRET:-$TS_API_CLIENT_SECRET}"
 export TAILSCALE_TAILNET="TY1qnFMXke11CNTRL"
 
 tofu "$@"
@@ -382,8 +382,8 @@ jobs:
         uses: tailscale/gitops-acl-action@v1
         with:
           tailnet: TY1qnFMXke11CNTRL
-          oauth-client-id: ${{ secrets.TS_API_CLIENT_ID }}
-          oauth-secret: ${{ secrets.TS_API_CLIENT_SECRET }}
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_CLIENT_SECRET }}
           policy-file: policy.hujson
           action: test # validation 전용 (apply는 OpenTofu가 담당)
 ```

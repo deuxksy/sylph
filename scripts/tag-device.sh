@@ -93,8 +93,8 @@ source "$ENV_TMP"
 set +a
 rm -f "$ENV_TMP"
 
-if [[ -z "${TS_API_CLIENT_ID:-}" || -z "${TS_API_CLIENT_SECRET:-}" ]]; then
-    echo "Error: TS_API_CLIENT_ID / TS_API_CLIENT_SECRET missing in $ENV_FILE" >&2
+if [[ -z "${TS_OAUTH_CLIENT_ID:-}" && -z "${TS_API_CLIENT_ID:-}" ]] || [[ -z "${TS_OAUTH_CLIENT_SECRET:-}" && -z "${TS_API_CLIENT_SECRET:-}" ]]; then
+    echo "Error: TS_OAUTH_CLIENT_ID/TS_API_CLIENT_ID and TS_OAUTH_CLIENT_SECRET/TS_API_CLIENT_SECRET missing in $ENV_FILE" >&2
     exit 1
 fi
 
@@ -106,7 +106,7 @@ fi
 # 1. OAuth access token 발급 (client_credentials, Basic auth)
 echo "ℹ️  Requesting OAuth access token..."
 TOKEN_RESPONSE=$(curl -sS -f -X POST "${API_BASE}/oauth/token" \
-    -u "${TS_API_CLIENT_ID}:${TS_API_CLIENT_SECRET}" \
+    -u "${TS_OAUTH_CLIENT_ID:-$TS_API_CLIENT_ID}:${TS_OAUTH_CLIENT_SECRET:-$TS_API_CLIENT_SECRET}" \
     -d "grant_type=client_credentials" \
     2>/dev/null) || {
         echo "Error: OAuth token request failed" >&2
