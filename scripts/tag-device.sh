@@ -92,8 +92,16 @@ source "$ENV_TMP"
 set +a
 rm -f "$ENV_TMP"
 
+# Support both legacy and newer variable names for Tailscale OAuth client credentials.
+if [[ -z "${TS_API_CLIENT_ID:-}" && -n "${TS_OAUTH_CLIENT_ID:-}" ]]; then
+    TS_API_CLIENT_ID="$TS_OAUTH_CLIENT_ID"
+fi
+if [[ -z "${TS_API_CLIENT_SECRET:-}" && -n "${TS_OAUTH_CLIENT_SECRET:-}" ]]; then
+    TS_API_CLIENT_SECRET="$TS_OAUTH_CLIENT_SECRET"
+fi
+
 if [[ -z "${TS_API_CLIENT_ID:-}" || -z "${TS_API_CLIENT_SECRET:-}" ]]; then
-    echo "Error: TS_API_CLIENT_ID / TS_API_CLIENT_SECRET missing in $ENV_FILE" >&2
+    echo "Error: TS_API_CLIENT_ID/TS_OAUTH_CLIENT_ID and TS_API_CLIENT_SECRET/TS_OAUTH_CLIENT_SECRET missing in $ENV_FILE" >&2
     exit 1
 fi
 
