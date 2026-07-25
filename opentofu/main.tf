@@ -4,5 +4,5 @@ provider "tailscale" {
 }
 
 resource "tailscale_acl" "acl" {
-  acl = file("${path.module}/../policy.hujson")
+  acl = file("${path.module}/policy.hujson")
 }
