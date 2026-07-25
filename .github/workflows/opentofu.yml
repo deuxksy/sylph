@@ -53,7 +53,7 @@ jobs:
         env:
           TAILSCALE_OAUTH_CLIENT_ID: ${{ secrets.TS_API_CLIENT_ID }}
           TAILSCALE_OAUTH_CLIENT_SECRET: ${{ secrets.TS_API_CLIENT_SECRET }}
-          TAILSCALE_TAILNET: ${{ vars.TAILNET_ID }}
+          TAILSCALE_TAILNET: ${{ vars.TS_TAILNET_ID }}
         run: tofu validate
 
       - name: Create plan
@@ -64,7 +64,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           TAILSCALE_OAUTH_CLIENT_ID: ${{ secrets.TS_API_CLIENT_ID }}
           TAILSCALE_OAUTH_CLIENT_SECRET: ${{ secrets.TS_API_CLIENT_SECRET }}
-          TAILSCALE_TAILNET: ${{ vars.TAILNET_ID }}
+          TAILSCALE_TAILNET: ${{ vars.TS_TAILNET_ID }}
           TF_INPUT: false
         run: |
           tofu plan -no-color -json > tfplan.json 2>&1 || true
@@ -133,7 +133,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           TAILSCALE_OAUTH_CLIENT_ID: ${{ secrets.TS_API_CLIENT_ID }}
           TAILSCALE_OAUTH_CLIENT_SECRET: ${{ secrets.TS_API_CLIENT_SECRET }}
-          TAILSCALE_TAILNET: ${{ vars.TAILNET_ID }}
+          TAILSCALE_TAILNET: ${{ vars.TS_TAILNET_ID }}
           TF_INPUT: false
         run: tofu apply -auto-approve
 
