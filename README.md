@@ -8,6 +8,7 @@ Sylph는 Tailscale ACL 정책(`policy.hujson`)을 자동으로 문서화하고 C
 ## Topology
 
 ```mermaid
+%%{init: {'theme': 'dark'}}%%
 graph TB
     subgraph "Tailnet: ksymailing@gmail.com"
         subgraph "Mobile (tag:mobile)"
@@ -33,44 +34,9 @@ graph TB
         end
     end
 
-    M1 & M2 & M3 -.->|Mesh VPN| PC1
-    M1 & M2 & M3 -.->|Mesh VPN| PC2
-    M1 & M2 & M3 -.->|Mesh VPN| S1
-    M1 & M2 & M3 -.->|Mesh VPN| S2
-    M1 & M2 & M3 -.->|Mesh VPN| I1
-    M1 & M2 & M3 -.->|Mesh VPN| I2
-
-    PC1 -.->|Mesh VPN| S1
-    PC1 -.->|Mesh VPN| S2
-    PC1 -.->|Mesh VPN| I1
-    PC1 -.->|Mesh VPN| I2
-
-    PC2 -.->|Mesh VPN| S1
-    PC2 -.->|Mesh VPN| S2
-    PC2 -.->|Mesh VPN| I1
-    PC2 -.->|Mesh VPN| I2
-
-    S1 -.->|Mesh VPN| S2
-    S1 -.->|Mesh VPN| I1
-    S1 -.->|Mesh VPN| I2
-
-    S2 -.->|Mesh VPN| I1
-    S2 -.->|Mesh VPN| I2
-
-    I1 -.->|Mesh VPN| I2
-
     S2 ==>|Exit Node| Internet((🌐 Internet))
     I2 ==>|Subnet Routes| LAN[192.168.1.0/24<br/>192.168.8.0/24]
 
-    style M1 fill:#e1f5fe
-    style M2 fill:#e1f5fe
-    style M3 fill:#e1f5fe
-    style PC1 fill:#f3e5f5
-    style PC2 fill:#f3e5f5
-    style S1 fill:#fff3e0
-    style S2 fill:#ffebee
-    style I1 fill:#e8f5e9
-    style I2 fill:#e8f5e9
 ```
 
 ## Hardware Specs

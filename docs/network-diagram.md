@@ -5,6 +5,7 @@
 ## 네트워크 topology
 
 ```mermaid
+%%{init: {'theme': 'dark'}}%%
 graph TB
     subgraph "Tailnet: ksymailing@gmail.com"
         subgraph "Mobile (tag:mobile)"
@@ -29,31 +30,31 @@ graph TB
         end
     end
     
-    M1 & M2 & M3 -.->|Mesh VPN| PC1
-    M1 & M2 & M3 -.->|Mesh VPN| PC2
-    M1 & M2 & M3 -.->|Mesh VPN| S1
-    M1 & M2 & M3 -.->|Mesh VPN| S2
-    M1 & M2 & M3 -.->|Mesh VPN| I1
-    M1 & M2 & M3 -.->|Mesh VPN| I2
-    
-    PC1 -.->|Mesh VPN| S1
-    PC1 -.->|Mesh VPN| S2
-    PC1 -.->|Mesh VPN| I1
-    PC1 -.->|Mesh VPN| I2
-    
-    PC2 -.->|Mesh VPN| S1
-    PC2 -.->|Mesh VPN| S2
-    PC2 -.->|Mesh VPN| I1
-    PC2 -.->|Mesh VPN| I2
-    
-    S1 -.->|Mesh VPN| S2
-    S1 -.->|Mesh VPN| I1
-    S1 -.->|Mesh VPN| I2
-    
-    S2 -.->|Mesh VPN| I1
-    S2 -.->|Mesh VPN| I2
-    
-    I1 -.->|Mesh VPN| I2
+M1 & M2 & M3 -.-> PC1
+    M1 & M2 & M3 -.-> PC2
+    M1 & M2 & M3 -.-> S1
+    M1 & M2 & M3 -.-> S2
+    M1 & M2 & M3 -.-> I1
+    M1 & M2 & M3 -.-> I2
+
+    PC1 -.-> S1
+    PC1 -.-> S2
+    PC1 -.-> I1
+    PC1 -.-> I2
+
+    PC2 -.-> S1
+    PC2 -.-> S2
+    PC2 -.-> I1
+    PC2 -.-> I2
+
+    S1 -.-> S2
+    S1 -.-> I1
+    S1 -.-> I2
+
+    S2 -.-> I1
+    S2 -.-> I2
+
+    I1 -.-> I2
     
     S2 ==>|Exit Node| Internet((🌐 Internet))
     I2 ==>|Subnet Routes| LAN[192.168.1.0/24<br/>192.168.8.0/24]
