@@ -494,7 +494,7 @@ Expected: `exit: 0`.
 ```bash
 set -a; source <(sops -d --input-type dotenv --output-type binary .env.sops); set +a
 TOKEN=$(curl -sS -X POST "https://api.tailscale.com/api/v2/oauth/token" \
-  -u "${TS_API_CLIENT_ID}:${TS_API_CLIENT_SECRET}" \
+  -u "${TS_OAUTH_CLIENT_ID}:${TS_OAUTH_CLIENT_SECRET}" \
   -d "grant_type=client_credentials" | jq -r '.access_token')
 curl -sS "https://api.tailscale.com/api/v2/tailnet/TY1qnFMXke11CNTRL/devices" \
   -H "Authorization: Bearer $TOKEN" | \

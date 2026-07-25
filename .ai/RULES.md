@@ -69,7 +69,7 @@ Dependencies: `jq`, `python3` + `json5` (`pip install json5`)
 - **opentofu.yml**: `opentofu/` 변경을 감지하여 `tofu plan` 검증 + PR 코멘트 생성, `main` 병합 시 `tofu apply` 실행
 - **acl-docs.yml**: PR에서 문서 생성 후 PR 코멘트로 결과 게시
 - ACL apply는 OpenTofu(`./scripts/tofu.sh apply`)가 담당하며, `opentofu.yml`에서 자동화됨
-- Secrets: `TS_API_CLIENT_ID`, `TS_API_CLIENT_SECRET`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` 필요
+- Secrets: `TS_OAUTH_CLIENT_ID`, `TS_OAUTH_CLIENT_SECRET`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` 필요
 
 ### MCP Servers (.mcp.json.example)
 Cloudflare(다중 서비스: docs/bindings/builds/observability/radar 등), GlobalPing, Serena 설정 예시 포함.
