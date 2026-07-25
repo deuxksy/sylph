@@ -11,7 +11,7 @@ Usage: $(basename "$0") [OPTIONS]
 Generate documentation from Tailscale ACL policy.hujson
 
 Options:
-  -p, --policy FILE     Path to policy.hujson (default: ../policy.hujson)
+  -p, --policy FILE     Path to policy.hujson (default: opentofu/policy.hujson)
   -o, --output DIR      Output directory (default: ../docs)
   --pr-comment          Generate PR comment diff (.pr-comment.md)
   --compare REF         Git ref to compare (default: HEAD~1)
@@ -26,7 +26,7 @@ HELP
 }
 
 # Default values
-POLICY_FILE="policy.hujson"
+POLICY_FILE="opentofu/policy.hujson"
 OUTPUT_DIR="docs"
 PR_COMMENT=false
 COMPARE_REF="HEAD~1"
