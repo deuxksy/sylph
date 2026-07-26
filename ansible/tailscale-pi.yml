@@ -1,0 +1,102 @@
+---
+# Tailscale Pi 노드 설정: subnet router + exit node + auto-update
+# 대상: Raspberry Pi (auxo 등). 이미 tailscale 설치/로그인된 상태 가정.
+
+- name: Tailscale Pi 노드 설정
+  hosts: rpi
+  become: true
+  vars:
+    ts_subnet: "192.168.221.0/24"
+    ts_exit_node: true
+    ts_distro: "raspbian"
+    ts_codename: "trixie"
+
+  tasks:
+    - name: tailscale GPG key 디렉토리 존재
+      ansible.builtin.file:
+        path: /usr/share/keyrings
+        state: directory
+        mode: "0755"
+
+    - name: tailscale GPG key 다운로드
+      ansible.builtin.get_url:
+        url: "https://pkgs.tailscale.com/stable/{{ ts_distro }}/{{ ansible_facts['distribution_release'] }}.noarmor.gpg"
+        dest: /usr/share/keyrings/tailscale-archive-keyring.gpg
+        mode: "0644"
+        force: true
+
+    - name: tailscale apt source 추가/정규화 (codename {{ ts_codename }})
+      ansible.builtin.copy:
+        dest: /etc/apt/sources.list.d/tailscale.list
+        content: |
+          # Tailscale packages for {{ ts_distro }} {{ ts_codename }}
+          deb [signed-by=/usr/share/keyrings/tailscale-archive-keyring.gpg] https://pkgs.tailscale.com/stable/{{ ts_distro }} {{ ts_codename }} main
+        mode: "0644"
+      register: ts_source
+
+    - name: apt cache 갱신 (source 변경 시)
+      ansible.builtin.apt:
+        update_cache: true
+      when: ts_source.changed
+
+    - name: tailscale 패키지 설치/업그레이드
+      ansible.builtin.apt:
+        name: tailscale
+        state: latest
+        update_cache: true
+
+    - name: unattended-upgrades 설치
+      ansible.builtin.apt:
+        name: unattended-upgrades
+        state: present
+
+    - name: unattended-upgrades 활성화 (tailscale 자동 업데이트)
+      ansible.builtin.copy:
+        dest: /etc/apt/apt.conf.d/50unattended-tailscale
+        content: |
+          Unattended-Upgrade::Allowed-Origins {
+            "origin=Tailscale,codename=${distro_codename}";
+          };
+        mode: "0644"
+
+    - name: tailscale 자동 업데이트 활성화 (prefs)
+      ansible.builtin.command:
+        cmd: tailscale set --auto-update
+      changed_when: false
+
+    - name: IPv4 forwarding 활성화 (subnet router/exit node 필수)
+      ansible.builtin.sysctl:
+        name: net.ipv4.ip_forward
+        value: "1"
+        sysctl_set: true
+        reload: true
+
+    - name: IPv6 forwarding 활성화 (subnet router/exit node 필수)
+      ansible.builtin.sysctl:
+        name: net.ipv6.conf.all.forwarding
+        value: "1"
+        sysctl_set: true
+        reload: true
+
+    - name: 현재 advertise 설정 조회
+      ansible.builtin.command: tailscale debug prefs
+      register: ts_prefs
+      changed_when: false
+
+    - name: subnet router + exit node advertise
+      ansible.builtin.command:
+        cmd: "tailscale up --advertise-routes={{ ts_subnet }} --advertise-exit-node --accept-routes"
+      register: ts_up
+      changed_when: "'Success' in ts_up.stderr"
+      failed_when: false
+      notify: tailscale status 확인
+
+  handlers:
+    - name: tailscale status 확인
+      ansible.builtin.command: tailscale status
+      register: ts_status
+      changed_when: false
+
+    - name: 상태 출력
+      ansible.builtin.debug:
+        var: ts_status.stdout_lines
