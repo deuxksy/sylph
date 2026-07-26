@@ -1,7 +1,7 @@
 # Tailscale ACL 문서
 
-> 자동 생성일: 2026-06-22 00:37:34 +0900
-> 커밋: `daaba88` (Crong)
+> 자동 생성일: 2026-07-25 15:12:21 +0900
+> 커밋: `9dd2f69` (Crong)
 
 ---
 
@@ -39,6 +39,8 @@
 | `tag:ai` | group:member, group:develop, group:admin, autogroup:admin |
 | `tag:kyolim` | group:member, group:develop, group:admin, autogroup:admin |
 | `tag:oci` | group:member, group:develop, group:admin, autogroup:admin |
+| `tag:pi` | group:member, group:develop, group:admin, autogroup:admin |
+| `tag:github-action` | group:member, group:develop, group:admin, autogroup:admin |
 
 
 ## 🔐 ACL 규칙
@@ -53,7 +55,7 @@
 
 | 액션 | 소스 | 대상 | 허용 사용자 |
 |------|------|------|-------------|
-| accept | `group:admin, group:member, group:develop` | `tag:server, tag:network, autogroup:self` | `autogroup:nonroot, crong, deck` |
+| accept | `group:admin, group:member, group:develop, autogroup:admin` | `tag:server, tag:network, tag:pi, autogroup:self` | `autogroup:nonroot, crong, deck` |
 
 
 ## 📊 네트워크 연결 다이어그램
@@ -69,6 +71,7 @@ graph TB
     subgraph "태그"
         T-ai["tag:ai"]
         T-docker["tag:docker"]
+        T-github-action["tag:github-action"]
         T-heritage["tag:heritage"]
         T-https["tag:https"]
         T-k8s["tag:k8s"]
@@ -80,6 +83,7 @@ graph TB
         T-network["tag:network"]
         T-oci["tag:oci"]
         T-pc["tag:pc"]
+        T-pi["tag:pi"]
         T-projector["tag:projector"]
         T-server["tag:server"]
         T-windows["tag:windows"]
@@ -146,12 +150,20 @@ graph TB
     G-develop -->|소유| T-oci
     G-admin -->|소유| T-oci
     auto-autogroup:admin["autogroup:admin"] -->|소유| T-oci
+    G-member -->|소유| T-pi
+    G-develop -->|소유| T-pi
+    G-admin -->|소유| T-pi
+    auto-autogroup:admin["autogroup:admin"] -->|소유| T-pi
+    G-member -->|소유| T-github-action
+    G-develop -->|소유| T-github-action
+    G-admin -->|소유| T-github-action
+    auto-autogroup:admin["autogroup:admin"] -->|소유| T-github-action
 
     classDef groupStyle fill:#e1f5fe,stroke:#01579b
     classDef tagStyle fill:#f3e5f5,stroke:#4a148c
 
     class G-admin G-member G-develop  groupStyle
-    class T-ai T-docker T-heritage T-https T-k8s T-k8s-operator T-kyolim T-linux T-mac T-mobile T-network T-oci T-pc T-projector T-server T-windows  tagStyle
+    class T-ai T-docker T-github-action T-heritage T-https T-k8s T-k8s-operator T-kyolim T-linux T-mac T-mobile T-network T-oci T-pc T-pi T-projector T-server T-windows  tagStyle
 ```
 
 

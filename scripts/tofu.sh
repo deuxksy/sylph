@@ -6,10 +6,15 @@ cd "$(dirname "$0")/../opentofu"
 
 ENV_TMP=$(mktemp)
 trap 'rm -f "$ENV_TMP"' EXIT
-if ! sops -d --input-type dotenv --output-type binary ../.env.sops > "$ENV_TMP" 2>/dev/null; then
-    echo "Error: sops decryption failed for .env.sops" >&2
+
+# .env가 있으면 직접 로드, 없으면 sops로 복호화 시도
+if [[ -f ../.env ]]; then
+    cp ../.env "$ENV_TMP"
+elif ! sops -d --input-type dotenv --output-type binary ../.env.sops > "$ENV_TMP" 2>/dev/null; then
+    echo "Error: neither .env nor valid .env.sops found" >&2
     exit 1
 fi
+
 set -a
 # shellcheck disable=SC1090
 source "$ENV_TMP"
@@ -17,12 +22,13 @@ set +a
 rm -f "$ENV_TMP"
 
 if [[ -z "${AWS_ACCESS_KEY_ID:-}" || -z "${AWS_SECRET_ACCESS_KEY:-}" ]]; then
-    echo "Error: R2 credentials (AWS_ACCESS_KEY_ID/SECRET) missing in .env.sops" >&2
+    echo "Error: R2 credentials (AWS_ACCESS_KEY_ID/SECRET) missing" >&2
     exit 1
 fi
 
-export TAILSCALE_OAUTH_CLIENT_ID="${TS_OAUTH_CLIENT_ID:-$TS_API_CLIENT_ID}"
-export TAILSCALE_OAUTH_CLIENT_SECRET="${TS_OAUTH_CLIENT_SECRET:-$TS_API_CLIENT_SECRET}"
-export TAILSCALE_TAILNET="TY1qnFMXke11CNTRL"
+# TS_OAUTH_CLIENT_* 우선, 없으면 TS_API_CLIENT_* fallback
+export TAILSCALE_OAUTH_CLIENT_ID="${TS_OAUTH_CLIENT_ID:-${TS_API_CLIENT_ID:-}}"
+export TAILSCALE_OAUTH_CLIENT_SECRET="${TS_OAUTH_CLIENT_SECRET:-${TS_API_CLIENT_SECRET:-}}"
+export TAILSCALE_TAILNET="${TS_TAILNET_ID:-TY1qnFMXke11CNTRL}"
 
 tofu "$@"
