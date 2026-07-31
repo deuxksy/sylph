@@ -80,12 +80,14 @@ if ! command -v sops >/dev/null 2>&1; then
     exit 1
 fi
 
-# binary 모드로 암호화된 파일은 input dotenv / output binary로 복호화
+# .env.sops 형식 자동 감지: dotenv(binary 암호화) 실패 시 JSON(data 키 암호화)으로 재시도
 ENV_TMP=$(mktemp)
 trap 'rm -f "$ENV_TMP"' EXIT
 if ! sops -d --input-type dotenv --output-type binary "$ENV_FILE" > "$ENV_TMP" 2>/dev/null; then
-    echo "Error: sops decryption failed for $ENV_FILE" >&2
-    exit 1
+    if ! sops -d --input-type json --output-type binary "$ENV_FILE" > "$ENV_TMP" 2>/dev/null; then
+        echo "Error: sops decryption failed for $ENV_FILE" >&2
+        exit 1
+    fi
 fi
 set -a
 # shellcheck disable=SC1090

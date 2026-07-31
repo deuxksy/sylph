@@ -62,8 +62,9 @@ Dependencies: `jq`, `python3` + `json5` (`pip install json5`)
 - 사용: `./scripts/tofu.sh plan|apply|import ...`
 
 ### .env.sops
-- 비정형 구조: 전체 내용이 `data` 키 하나에 암호화됨 → `sops -d .env.sops`는 실패
-- 수동 복호화: `sops -d --input-type dotenv --output-type binary .env.sops > .env`
+- JSON 형식: 전체 내용이 `data` 키 하나에 암호화됨 → `sops -d .env.sops`는 실패
+- 수동 복호화: `sops -d --input-type json --output-type binary .env.sops > .env`
+- `scripts/tofu.sh`, `scripts/tag-device.sh`는 dotenv → JSON 순으로 형식 자동 감지
 
 ### GitHub Actions (2개 워크플로우)
 - **opentofu.yml**: `opentofu/` 변경을 감지하여 `tofu plan` 검증 + PR 코멘트 생성, `main` 병합 시 `tofu apply` 실행

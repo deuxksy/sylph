@@ -7,12 +7,14 @@ cd "$(dirname "$0")/../opentofu"
 ENV_TMP=$(mktemp)
 trap 'rm -f "$ENV_TMP"' EXIT
 
-# .env가 있으면 직접 로드, 없으면 sops로 복호화 시도
+# .env가 있으면 직접 로드, 없으면 sops로 복호화 시도 (dotenv → JSON 형식 순)
 if [[ -f ../.env ]]; then
     cp ../.env "$ENV_TMP"
 elif ! sops -d --input-type dotenv --output-type binary ../.env.sops > "$ENV_TMP" 2>/dev/null; then
-    echo "Error: neither .env nor valid .env.sops found" >&2
-    exit 1
+    if ! sops -d --input-type json --output-type binary ../.env.sops > "$ENV_TMP" 2>/dev/null; then
+        echo "Error: neither .env nor valid .env.sops found" >&2
+        exit 1
+    fi
 fi
 
 set -a
