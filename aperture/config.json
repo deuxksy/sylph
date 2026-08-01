@@ -37,8 +37,7 @@
             "models": [
                 "k3",
                 "k3-256k",
-                "kimi-for-coding",
-                "kimi-for-coding-highspeed"
+                "kimi-for-coding"
             ],
             "authorization": "x-api-key",
             "compatibility": {
@@ -52,8 +51,7 @@
             "models": [
                 "k3",
                 "k3-256k",
-                "kimi-for-coding",
-                "kimi-for-coding-highspeed"
+                "kimi-for-coding"
             ],
             "authorization": "bearer",
             "compatibility": {
