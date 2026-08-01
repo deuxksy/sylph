@@ -7,10 +7,12 @@ on:
       - main
     paths:
       - 'opentofu/**'
+      - 'aperture/**'
       - '.github/workflows/opentofu.yml'
   pull_request:
     paths:
       - 'opentofu/**'
+      - 'aperture/**'
   workflow_dispatch:
     inputs:
       apply:
