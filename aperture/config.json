@@ -17,7 +17,7 @@
                 "anthropic_messages": true
             },
             "name": "DeepSeek",
-            "apikey": "keyid:p:DeepSeek-anthropic:sk-1..39a2"
+            "apikey": ""
         },
         "DeepSeek-openapi": {
             "baseurl": "https://api.deepseek.com",
@@ -29,8 +29,8 @@
             "compatibility": {
                 "openai_chat": true
             },
-            "apikey": "keyid:p:DeepSeek-openapi:sk-1..39a2",
-            "name": "DeepSeek"
+            "name": "DeepSeek",
+            "apikey": ""
         },
         "KiMi-Cloud-Anthropic": {
             "baseurl": "https://api.kimi.com/coding/",
@@ -44,7 +44,7 @@
                 "anthropic_messages": true
             },
             "name": "Kimi Code",
-            "apikey": "keyid:p:KiMi-Cloud-Anthropic:sk-1..39a2"
+            "apikey": ""
         },
         "KiMi-Cloud-OpenAI": {
             "baseurl": "https://api.kimi.com/coding/v1",
@@ -58,7 +58,7 @@
                 "openai_chat": true
             },
             "name": "Kimi Code",
-            "apikey": "keyid:p:KiMi-Cloud-OpenAI:sk-1..39a2"
+            "apikey": ""
         },
         "ZAI-anthropic": {
             "baseurl": "https://api.z.ai/api/anthropic",
@@ -78,7 +78,7 @@
                 "anthropic_messages": true
             },
             "name": "Z.AI",
-            "apikey": "keyid:p:ZAI-anthropic:54c4..7Omf"
+            "apikey": ""
         },
         "LiteLLM": {
             "baseurl": "http://lllm:4000",
@@ -91,13 +91,13 @@
                 "openai_responses": false
             },
             "name": "LiteLLM",
-            "apikey": "keyid:p:LiteLLM:sk-l..0516"
+            "apikey": ""
         }
     },
     "hooks": {
         "oso": {
             "url": "https://api.osohq.com/api/agents/v1/model-request",
-            "apikey": "keyid:h:oso:e_4i..hnxG",
+            "apikey": "",
             "timeout": "30s"
         }
     },
