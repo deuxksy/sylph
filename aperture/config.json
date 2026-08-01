@@ -78,6 +78,7 @@
                 "anthropic_messages": true
             },
             "name": "Z.AI",
+            "preference": 89,
             "apikey": ""
         },
         "LiteLLM": {
