@@ -1,5 +1,29 @@
 {
     "providers": {
+        "anthropic": {
+            "apikey": "",
+            "authorization": "x-api-key",
+            "baseurl": "https://api.anthropic.com",
+            "models": [
+                "claude-haiku-4-5",
+                "claude-sonnet-4-6",
+                "claude-opus-4-7"
+            ],
+            "compatibility": {
+                "anthropic_messages": true,
+                "openai_chat": false
+            }
+        },
+        "codex": {
+            "baseurl": "https://chatgpt.com/backend-api/codex",
+            "models": [
+                "gpt-5.5"
+            ],
+            "compatibility": {
+                "openai_chat": false,
+                "openai_responses": true
+            }
+        },
         "DeepSeek-anthropic": {
             "baseurl": "https://api.deepseek.com/anthropic",
             "models": [
@@ -104,7 +128,7 @@
     "mcp": {},
     "grants": [
         {
-            "src": ["ksymailin@gmail.com", "*"],
+            "src": ["ksymailing@gmail.com", "*"],
             "app": {
                 "tailscale.com/cap/aperture": [{"role": "admin"}]
             }
