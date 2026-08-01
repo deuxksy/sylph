@@ -31,6 +31,7 @@
                 "openai_chat": true
             },
             "name": "DeepSeek",
+            "preference": 58,
             "apikey": ""
         },
         "KiMi-Cloud-Anthropic": {
