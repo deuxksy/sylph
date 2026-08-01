@@ -1,6 +1,6 @@
 {
     "providers": {
-        "DeepSeek-anthropic": {
+        "DeepSeek-Cloud-Anthropic": {
             "baseurl": "https://api.deepseek.com/anthropic",
             "models": [
                 "claude-sonnet-4-5-20250929",
