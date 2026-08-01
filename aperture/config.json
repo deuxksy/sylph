@@ -1,0 +1,201 @@
+{
+    "providers": {
+        "ModelArk-anthropic": {
+            "baseurl": "https://ark.ap-southeast.bytepluses.com/api/coding",
+            "models": [
+                "dola-seed-2.0-pro",
+                "dola-seed-2.0-lite",
+                "dola-seed-2.0-code",
+                "bytedance-seed-code",
+                "kimi-k2.5",
+                "gpt-oss-120b"
+            ],
+            "authorization": "x-api-key",
+            "compatibility": {
+                "anthropic_messages": true
+            },
+            "name": "ByteDance",
+            "apikey": "keyid:p:ModelArk-anthropic:ark-..5a44"
+        },
+        "DeepSeek-anthropic": {
+            "baseurl": "https://api.deepseek.com/anthropic",
+            "models": [
+                "claude-sonnet-4-5-20250929",
+                "claude-sonnet-4-5",
+                "claude-haiku-4-5-20251001",
+                "claude-haiku-4-5",
+                "claude-opus-4-6",
+                "claude-sonnet-4-6",
+                "deepseek-reasoner",
+                "deepseek-chat"
+            ],
+            "authorization": "x-api-key",
+            "compatibility": {
+                "anthropic_messages": true
+            },
+            "name": "DeepSeek",
+            "apikey": "keyid:p:DeepSeek-anthropic:sk-1..39a2"
+        },
+        "DeepSeek-openapi": {
+            "baseurl": "https://api.deepseek.com",
+            "models": [
+                "deepseek-reasoner",
+                "deepseek-chat"
+            ],
+            "authorization": "bearer",
+            "compatibility": {
+                "openai_chat": true
+            },
+            "apikey": "keyid:p:DeepSeek-openapi:sk-1..39a2",
+            "name": "DeepSeek"
+        },
+        "Gemma": {
+            "baseurl": "https://generativelanguage.googleapis.com",
+            "models": [
+                "gemma-3-12b-it",
+                "gemma-3-27b-it",
+                "gemma-3n-e4b-it",
+                "gemma-4-31b-it",
+                "gemma-4-26b-a4b-it"
+            ],
+            "authorization": "x-goog-api-key",
+            "compatibility": {
+                "gemini_generate_content": true
+            },
+            "name": "Google AI Studio",
+            "apikey": "keyid:p:Gemma:AIza..MQnY"
+        },
+        "ZAI-anthropic": {
+            "baseurl": "https://api.z.ai/api/anthropic",
+            "models": [
+                "claude-opus-4-6",
+                "claude-sonnet-4-6",
+                "claude-haiku-4-5",
+                "claude-sonnet-4-5-20250929",
+                "glm-5-turbo",
+                "glm-5.1",
+                "glm-5",
+                "glm-4.7",
+                "glm-4.5-air"
+            ],
+            "authorization": "x-api-key",
+            "compatibility": {
+                "anthropic_messages": true
+            },
+            "name": "Z.AI",
+            "apikey": "keyid:p:ZAI-anthropic:54c4..7Omf"
+        },
+        "ModelArk-openai": {
+            "baseurl": "http://lllm:4000",
+            "models": [
+                "dola-seed-2.0-pro",
+                "dola-seed-2.0-lite",
+                "dola-seed-2.0-code",
+                "bytedance-seed-code",
+                "kimi-k2.5",
+                "gpt-oss-120b",
+                "google/gemma-4-26b-a4b-qat"
+            ],
+            "authorization": "bearer",
+            "compatibility": {
+                "openai_chat": true,
+                "openai_responses": false
+            },
+            "name": "ByteDance",
+            "apikey": "keyid:p:ModelArk-openai:sk-l..0516"
+        },
+        "ZAI-openai": {
+            "baseurl": "http://lllm:4000",
+            "models": [
+                "glm-5-turbo",
+                "glm-5.1",
+                "glm-5",
+                "glm-4.7",
+                "glm-4.5-air",
+                "google/gemma-4-26b-a4b-qat"
+            ],
+            "authorization": "bearer",
+            "compatibility": {
+                "openai_chat": true,
+                "openai_responses": false
+            },
+            "name": "Z.AI",
+            "apikey": "keyid:p:ZAI-openai:sk-l..0516"
+        }
+    },
+    "hooks": {
+        "oso": {
+            "url": "https://api.osohq.com/api/agents/v1/model-request",
+            "apikey": "keyid:h:oso:e_4i..hnxG",
+            "timeout": "30s"
+        }
+    },
+    "mcp": {},
+    "grants": [
+        {
+            "src": ["ksymailin@gmail.com", "*"],
+            "app": {
+                "tailscale.com/cap/aperture": [{"role": "admin"}]
+            }
+        },
+        {
+            "src": ["*"],
+            "app": {
+                "tailscale.com/cap/aperture": [{"role": "user"}]
+            }
+        },
+        {
+            "src": ["*"],
+            "app": {
+                "tailscale.com/cap/aperture": [{"models": "**"}]
+            }
+        },
+        {
+            "src": ["*"],
+            "app": {
+                "tailscale.com/cap/aperture": [
+                    {
+                        "role": "user",
+                        "send_hooks": [
+                            {
+                                "name": "oso",
+                                "events": [
+                                    "entire_request",
+                                    "tool_call_entire_request"
+                                ],
+                                "send": [
+                                    "*",
+                                    "tools",
+                                    "request_body",
+                                    "user_message",
+                                    "raw_responses",
+                                    "response_body"
+                                ]
+                            }
+                        ]
+                    },
+                    {"mcp_tools": "**/**"},
+                    {"models": "**/**"},
+                    {
+                        "send_hooks": [
+                            {
+                                "name": "oso",
+                                "events": [
+                                    "tool_call_entire_request",
+                                    "entire_request"
+                                ],
+                                "send": [
+                                    "user_message",
+                                    "request_body",
+                                    "tools",
+                                    "raw_responses",
+                                    "response_body"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}
