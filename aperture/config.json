@@ -17,6 +17,7 @@
                 "anthropic_messages": true
             },
             "name": "DeepSeek",
+            "preference": 59,
             "apikey": ""
         },
         "DeepSeek-Cloud-OpenAI": {
