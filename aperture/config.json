@@ -94,13 +94,7 @@
             "apikey": ""
         }
     },
-    "hooks": {
-        "oso": {
-            "url": "https://api.osohq.com/api/agents/v1/model-request",
-            "apikey": "",
-            "timeout": "30s"
-        }
-    },
+    "hooks": {},
     "mcp": {},
     "grants": [
         {
@@ -112,59 +106,10 @@
         {
             "src": ["*"],
             "app": {
-                "tailscale.com/cap/aperture": [{"role": "user"}]
-            }
-        },
-        {
-            "src": ["*"],
-            "app": {
-                "tailscale.com/cap/aperture": [{"models": "**"}]
-            }
-        },
-        {
-            "src": ["*"],
-            "app": {
                 "tailscale.com/cap/aperture": [
-                    {
-                        "role": "user",
-                        "send_hooks": [
-                            {
-                                "name": "oso",
-                                "events": [
-                                    "entire_request",
-                                    "tool_call_entire_request"
-                                ],
-                                "send": [
-                                    "*",
-                                    "tools",
-                                    "request_body",
-                                    "user_message",
-                                    "raw_responses",
-                                    "response_body"
-                                ]
-                            }
-                        ]
-                    },
+                    {"role": "user"},
                     {"mcp_tools": "**/**"},
-                    {"models": "**/**"},
-                    {
-                        "send_hooks": [
-                            {
-                                "name": "oso",
-                                "events": [
-                                    "tool_call_entire_request",
-                                    "entire_request"
-                                ],
-                                "send": [
-                                    "user_message",
-                                    "request_body",
-                                    "tools",
-                                    "raw_responses",
-                                    "response_body"
-                                ]
-                            }
-                        ]
-                    }
+                    {"models": "**/**"}
                 ]
             }
         }
