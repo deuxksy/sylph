@@ -19,7 +19,7 @@
             "name": "DeepSeek",
             "apikey": ""
         },
-        "DeepSeek-openapi": {
+        "DeepSeek-Cloud-OpenAI": {
             "baseurl": "https://api.deepseek.com",
             "models": [
                 "deepseek-reasoner",
