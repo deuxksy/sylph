@@ -32,22 +32,6 @@
             "apikey": "keyid:p:DeepSeek-openapi:sk-1..39a2",
             "name": "DeepSeek"
         },
-        "Gemma": {
-            "baseurl": "https://generativelanguage.googleapis.com",
-            "models": [
-                "gemma-3-12b-it",
-                "gemma-3-27b-it",
-                "gemma-3n-e4b-it",
-                "gemma-4-31b-it",
-                "gemma-4-26b-a4b-it"
-            ],
-            "authorization": "x-goog-api-key",
-            "compatibility": {
-                "gemini_generate_content": true
-            },
-            "name": "Google AI Studio",
-            "apikey": "keyid:p:Gemma:AIza..MQnY"
-        },
         "ZAI-anthropic": {
             "baseurl": "https://api.z.ai/api/anthropic",
             "models": [
@@ -68,14 +52,21 @@
             "name": "Z.AI",
             "apikey": "keyid:p:ZAI-anthropic:54c4..7Omf"
         },
-        "ZAI-openai": {
+        "LiteLLM": {
             "baseurl": "http://lllm:4000",
             "models": [
-                "glm-5-turbo",
+                "glm-5.2",
                 "glm-5.1",
+                "glm-5-turbo",
                 "glm-5",
                 "glm-4.7",
                 "glm-4.5-air",
+                "dola-seed-2.0-pro",
+                "dola-seed-2.0-lite",
+                "dola-seed-2.0-code",
+                "bytedance-seed-code",
+                "kimi-k2.5",
+                "gpt-oss-120b",
                 "google/gemma-4-26b-a4b-qat"
             ],
             "authorization": "bearer",
@@ -83,8 +74,8 @@
                 "openai_chat": true,
                 "openai_responses": false
             },
-            "name": "Z.AI",
-            "apikey": "keyid:p:ZAI-openai:sk-l..0516"
+            "name": "LiteLLM",
+            "apikey": "keyid:p:LiteLLM:sk-l..0516"
         }
     },
     "hooks": {
