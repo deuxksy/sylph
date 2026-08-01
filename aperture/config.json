@@ -59,6 +59,7 @@
                 "openai_chat": true
             },
             "name": "Kimi Code",
+            "preference": 78,
             "apikey": ""
         },
         "ZAI-Cloud-Anthropic": {
