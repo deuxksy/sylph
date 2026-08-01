@@ -91,6 +91,7 @@
                 "openai_responses": false
             },
             "name": "LiteLLM",
+            "preference": 39,
             "apikey": ""
         }
     },
