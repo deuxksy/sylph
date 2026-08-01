@@ -60,7 +60,7 @@
             "name": "Kimi Code",
             "apikey": ""
         },
-        "ZAI-anthropic": {
+        "ZAI-Cloud-Anthropic": {
             "baseurl": "https://api.z.ai/api/anthropic",
             "models": [
                 "claude-opus-4-6",
