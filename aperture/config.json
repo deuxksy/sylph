@@ -32,6 +32,36 @@
             "apikey": "keyid:p:DeepSeek-openapi:sk-1..39a2",
             "name": "DeepSeek"
         },
+        "KiMi-Cloud-Anthropic": {
+            "baseurl": "https://api.kimi.com/coding/",
+            "models": [
+                "k3",
+                "k3-256k",
+                "kimi-for-coding",
+                "kimi-for-coding-highspeed"
+            ],
+            "authorization": "x-api-key",
+            "compatibility": {
+                "anthropic_messages": true
+            },
+            "name": "Kimi Code",
+            "apikey": "keyid:p:KiMi-Cloud-Anthropic:sk-1..39a2"
+        },
+        "KiMi-Cloud-OpenAI": {
+            "baseurl": "https://api.kimi.com/coding/v1",
+            "models": [
+                "k3",
+                "k3-256k",
+                "kimi-for-coding",
+                "kimi-for-coding-highspeed"
+            ],
+            "authorization": "bearer",
+            "compatibility": {
+                "openai_chat": true
+            },
+            "name": "Kimi Code",
+            "apikey": "keyid:p:KiMi-Cloud-OpenAI:sk-1..39a2"
+        },
         "ZAI-anthropic": {
             "baseurl": "https://api.z.ai/api/anthropic",
             "models": [
