@@ -35,3 +35,5 @@ Thumbs.db
 *.tfstate
 *.tfstate.*
 crash.log
+
+keys.txt
