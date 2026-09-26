@@ -65,7 +65,15 @@
 		{
 			"action": "accept",
 			"src":    ["group:admin", "group:member", "group:develop", "autogroup:admin"],
-			"dst":    ["tag:server", "tag:network", "tag:pi", "autogroup:self"],
+			"dst":    ["tag:server", "tag:network", "tag:pi", "tag:ai", "tag:oci", "tag:heritage", "tag:k8s", "tag:linux", "autogroup:self"],
+			"users":  ["autogroup:nonroot", "crong", "deck"],
+		},
+		// 태그 디바이스는 소유자 대신 tag로 식별 — autogroup:self와 같은 규칙에 병합 불가(API 400)라 분리
+		// tag:mac/pc: 워크스테이션 클라이언트(eve/axiom), tag:ai: Aperture 노드가 TailnetSSH MCP 클라이언트
+		{
+			"action": "accept",
+			"src":    ["tag:mac", "tag:pc", "tag:ai"],
+			"dst":    ["tag:server", "tag:network", "tag:pi", "tag:ai", "tag:oci", "tag:heritage", "tag:k8s", "tag:linux"],
 			"users":  ["autogroup:nonroot", "crong", "deck"],
 		},
 	],

@@ -1,0 +1,179 @@
+[
+  {
+    "hostname": "ADT-3",
+    "os": "android",
+    "user": "ksymailing@gmail.com",
+    "tags": [
+      "tag:projector"
+    ]
+  },
+  {
+    "hostname": "DESKTOP-NTM6HBN",
+    "os": "windows",
+    "user": "azc2004@gmail.com",
+    "tags": []
+  },
+  {
+    "hostname": "ZZiZiLY-Z",
+    "os": "android",
+    "user": "ksymailing@gmail.com",
+    "tags": [
+      "tag:mobile"
+    ]
+  },
+  {
+    "hostname": "ai",
+    "os": "linux",
+    "user": "ksymailing@gmail.com",
+    "tags": [
+      "tag:ai"
+    ]
+  },
+  {
+    "hostname": "arv",
+    "os": "linux",
+    "user": "ksymailing@gmail.com",
+    "tags": [
+      "tag:https",
+      "tag:network"
+    ]
+  },
+  {
+    "hostname": "ava",
+    "os": "windows",
+    "user": "ksymailing@gmail.com",
+    "tags": [
+      "tag:pc",
+      "tag:windows"
+    ]
+  },
+  {
+    "hostname": "axiom",
+    "os": "macOS",
+    "user": "ksymailing@gmail.com",
+    "tags": [
+      "tag:mac",
+      "tag:pc"
+    ]
+  },
+  {
+    "hostname": "brla",
+    "os": "linux",
+    "user": "ksymailing@gmail.com",
+    "tags": [
+      "tag:oci"
+    ]
+  },
+  {
+    "hostname": "crong",
+    "os": "windows",
+    "user": "ksymailing@gmail.com",
+    "tags": [
+      "tag:kyolim",
+      "tag:windows"
+    ]
+  },
+  {
+    "hostname": "eve",
+    "os": "macOS",
+    "user": "ksymailing@gmail.com",
+    "tags": [
+      "tag:mac"
+    ]
+  },
+  {
+    "hostname": "girl",
+    "os": "linux",
+    "user": "ksymailing@gmail.com",
+    "tags": [
+      "tag:linux",
+      "tag:server"
+    ]
+  },
+  {
+    "hostname": "heritage",
+    "os": "linux",
+    "user": "ksymailing@gmail.com",
+    "tags": [
+      "tag:heritage",
+      "tag:linux"
+    ]
+  },
+  {
+    "hostname": "ipad",
+    "os": "iOS",
+    "user": "ksymailing@gmail.com",
+    "tags": [
+      "tag:mobile"
+    ]
+  },
+  {
+    "hostname": "keco-train-02",
+    "os": "linux",
+    "user": "ksymailing@gmail.com",
+    "tags": []
+  },
+  {
+    "hostname": "lllm",
+    "os": "linux",
+    "user": "",
+    "tags": [
+      "tag:k8s"
+    ]
+  },
+  {
+    "hostname": "localhost",
+    "os": "iOS",
+    "user": "azc2004@gmail.com",
+    "tags": []
+  },
+  {
+    "hostname": "localhost",
+    "os": "iOS",
+    "user": "ksymailing@gmail.com",
+    "tags": [
+      "tag:mobile"
+    ]
+  },
+  {
+    "hostname": "lt",
+    "os": "linux",
+    "user": "ksymailing@gmail.com",
+    "tags": [
+      "tag:oci"
+    ]
+  },
+  {
+    "hostname": "mo",
+    "os": "linux",
+    "user": "ksymailing@gmail.com",
+    "tags": [
+      "tag:server"
+    ]
+  },
+  {
+    "hostname": "steward",
+    "os": "linux",
+    "user": "ksymailing@gmail.com",
+    "tags": [
+      "tag:network"
+    ]
+  },
+  {
+    "hostname": "tailscale-operator",
+    "os": "linux",
+    "user": "",
+    "tags": [
+      "tag:k8s-operator"
+    ]
+  },
+  {
+    "hostname": "walle",
+    "os": "linux",
+    "user": "ksymailing@gmail.com",
+    "tags": [
+      "tag:linux",
+      "tag:server"
+    ]
+  }
+]

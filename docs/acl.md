@@ -1,7 +1,7 @@
 # Tailscale ACL 문서
 
-> 자동 생성일: 2026-07-25 15:12:21 +0900
-> 커밋: `9dd2f69` (Crong)
+> 자동 생성일: 2026-08-08 17:19:42 +0900
+> 커밋: `dcd3f41` (Crong)
 
 ---
 
@@ -55,7 +55,8 @@
 
 | 액션 | 소스 | 대상 | 허용 사용자 |
 |------|------|------|-------------|
-| accept | `group:admin, group:member, group:develop, autogroup:admin` | `tag:server, tag:network, tag:pi, autogroup:self` | `autogroup:nonroot, crong, deck` |
+| accept | `group:admin, group:member, group:develop, autogroup:admin` | `tag:server, tag:network, tag:pi, tag:ai, tag:oci, tag:heritage, tag:k8s, tag:linux, autogroup:self` | `autogroup:nonroot, crong, deck` |
+| accept | `tag:mac, tag:pc, tag:ai` | `tag:server, tag:network, tag:pi, tag:ai, tag:oci, tag:heritage, tag:k8s, tag:linux` | `autogroup:nonroot, crong, deck` |
 
 
 ## 📊 네트워크 연결 다이어그램

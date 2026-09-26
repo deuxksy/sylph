@@ -19,3 +19,13 @@ resource "tailscale_device_tags" "eve" {
   device_id = data.tailscale_device.eve.node_id
   tags      = ["tag:mac"]
 }
+
+# ksymailing의 vLLM 학습/서빙 노드 — 무태그라 ssh 정책 dst 불일치, tag:linux로 편입
+data "tailscale_device" "keco_train_02" {
+  hostname = "keco-train-02"
+}
+
+resource "tailscale_device_tags" "keco_train_02" {
+  device_id = data.tailscale_device.keco_train_02.node_id
+  tags      = ["tag:linux", "tag:kyolim"]
+}
