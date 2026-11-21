@@ -10,6 +10,8 @@
 		"tag:k8s":          	["tag:k8s-operator"],
 		"tag:k8s-operator": 	["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:mobile":   		["group:member", "group:develop", "group:admin", "autogroup:admin"],
+		"tag:ios":          	["group:member", "group:develop", "group:admin", "autogroup:admin"],
+		"tag:android":      	["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:network":  		["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:pc":       		["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:windows":      	["group:member", "group:develop", "group:admin", "autogroup:admin"],

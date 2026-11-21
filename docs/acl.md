@@ -1,7 +1,7 @@
 # Tailscale ACL 문서
 
-> 자동 생성일: 2026-11-21 23:14:06 +0900
-> 커밋: `b7b0542` (Crong)
+> 자동 생성일: 2026-11-21 23:28:53 +0900
+> 커밋: `dd306ed` (Crong)
 
 ---
 
@@ -27,6 +27,8 @@
 | `tag:k8s` | tag:k8s-operator |
 | `tag:k8s-operator` | group:member, group:develop, group:admin, autogroup:admin |
 | `tag:mobile` | group:member, group:develop, group:admin, autogroup:admin |
+| `tag:ios` | group:member, group:develop, group:admin, autogroup:admin |
+| `tag:android` | group:member, group:develop, group:admin, autogroup:admin |
 | `tag:network` | group:member, group:develop, group:admin, autogroup:admin |
 | `tag:pc` | group:member, group:develop, group:admin, autogroup:admin |
 | `tag:windows` | group:member, group:develop, group:admin, autogroup:admin |
@@ -65,7 +67,9 @@ graph TB
 
     subgraph "태그"
         T-ai["tag:ai"]
+        T-android["tag:android"]
         T-https["tag:https"]
+        T-ios["tag:ios"]
         T-k8s["tag:k8s"]
         T-k8s-operator["tag:k8s-operator"]
         T-kyolim["tag:kyolim"]
@@ -91,6 +95,14 @@ graph TB
     G-develop -->|소유| T-mobile
     G-admin -->|소유| T-mobile
     auto-autogroup:admin["autogroup:admin"] -->|소유| T-mobile
+    G-member -->|소유| T-ios
+    G-develop -->|소유| T-ios
+    G-admin -->|소유| T-ios
+    auto-autogroup:admin["autogroup:admin"] -->|소유| T-ios
+    G-member -->|소유| T-android
+    G-develop -->|소유| T-android
+    G-admin -->|소유| T-android
+    auto-autogroup:admin["autogroup:admin"] -->|소유| T-android
     G-member -->|소유| T-network
     G-develop -->|소유| T-network
     G-admin -->|소유| T-network
@@ -128,7 +140,7 @@ graph TB
     classDef tagStyle fill:#f3e5f5,stroke:#4a148c
 
     class G-admin G-member G-develop  groupStyle
-    class T-ai T-https T-k8s T-k8s-operator T-kyolim T-linux T-mac T-mobile T-network T-oci T-pc T-windows  tagStyle
+    class T-ai T-android T-https T-ios T-k8s T-k8s-operator T-kyolim T-linux T-mac T-mobile T-network T-oci T-pc T-windows  tagStyle
 ```
 
 

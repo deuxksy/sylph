@@ -6,7 +6,26 @@ data "tailscale_device" "projector" {
 
 resource "tailscale_device_tags" "projector" {
   device_id = data.tailscale_device.projector.node_id
-  tags      = ["tag:mobile"]
+  tags      = ["tag:mobile", "tag:android"]
+}
+
+# iOS 기기 — iphone은 hostname이 일반명 "localhost"라 Tailnet machine name으로 매칭 (eve 패턴)
+data "tailscale_device" "ipad" {
+  hostname = "ipad"
+}
+
+resource "tailscale_device_tags" "ipad" {
+  device_id = data.tailscale_device.ipad.node_id
+  tags      = ["tag:mobile", "tag:ios"]
+}
+
+data "tailscale_device" "iphone" {
+  name = "iphone.bun-bull.ts.net"
+}
+
+resource "tailscale_device_tags" "iphone" {
+  device_id = data.tailscale_device.iphone.node_id
+  tags      = ["tag:mobile", "tag:ios"]
 }
 
 # crong의 Mac mini — OS hostname은 NBSP(U+00A0)를 포함("crong의 Mac mini")하므로
@@ -37,7 +56,7 @@ data "tailscale_device" "s25" {
 
 resource "tailscale_device_tags" "s25" {
   device_id = data.tailscale_device.s25.node_id
-  tags      = ["tag:mobile"]
+  tags      = ["tag:mobile", "tag:android"]
 }
 
 data "tailscale_device" "x13" {
@@ -46,7 +65,7 @@ data "tailscale_device" "x13" {
 
 resource "tailscale_device_tags" "x13" {
   device_id = data.tailscale_device.x13.node_id
-  tags      = ["tag:mobile"]
+  tags      = ["tag:mobile", "tag:android"]
 }
 
 # OCI 인스턴스 — tag:linux는 이 tailnet에서 서버 역할 겸 OS 태그
