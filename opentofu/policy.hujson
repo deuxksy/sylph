@@ -7,13 +7,9 @@
 
 	"tagOwners": {
 		"tag:https":    		["group:member", "group:develop", "group:admin", "autogroup:admin"],
-		"tag:docker":   		["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:k8s":          	["tag:k8s-operator"],
 		"tag:k8s-operator": 	["group:member", "group:develop", "group:admin", "autogroup:admin"],
-		"tag:heritage": 		["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:mobile":   		["group:member", "group:develop", "group:admin", "autogroup:admin"],
-		"tag:projector":   		["group:member", "group:develop", "group:admin", "autogroup:admin"],
-		"tag:server":   		["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:network":  		["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:pc":       		["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:windows":      	["group:member", "group:develop", "group:admin", "autogroup:admin"],
@@ -22,8 +18,6 @@
 		"tag:ai":       		["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:kyolim":   		["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:oci":   	    	["group:member", "group:develop", "group:admin", "autogroup:admin"],
-		"tag:pi":   	    	["group:member", "group:develop", "group:admin", "autogroup:admin"],
-		"tag:github-action": 	["group:member", "group:develop", "group:admin", "autogroup:admin"],
 	},
 
 	"nodeAttrs": [
@@ -40,8 +34,8 @@
 			"attr":   ["funnel"],
 		},
 		{
-			// tag:server 와 tag:pc로부터 파일을 받을 수 있게 허용
-			"target": ["tag:server", "tag:pc", "tag:mobile", "tag:oci", "tag:projector", "tag:pi"],
+			// tag:linux 서버와 tag:pc/mobile 클라이언트로부터 파일을 받을 수 있게 허용
+			"target": ["tag:linux", "tag:pc", "tag:mobile", "tag:oci"],
 			"attr":   ["tailscale.com/cap/file-sharing"],
 		},
 	],
@@ -65,7 +59,7 @@
 		{
 			"action": "accept",
 			"src":    ["group:admin", "group:member", "group:develop", "autogroup:admin"],
-			"dst":    ["tag:server", "tag:network", "tag:pi", "tag:ai", "tag:oci", "tag:heritage", "tag:k8s", "tag:linux", "autogroup:self"],
+			"dst":    ["tag:network", "tag:ai", "tag:oci", "tag:k8s", "tag:linux", "autogroup:self"],
 			"users":  ["autogroup:nonroot", "crong", "deck"],
 		},
 		// 태그 디바이스는 소유자 대신 tag로 식별 — autogroup:self와 같은 규칙에 병합 불가(API 400)라 분리
@@ -73,7 +67,7 @@
 		{
 			"action": "accept",
 			"src":    ["tag:mac", "tag:pc", "tag:ai"],
-			"dst":    ["tag:server", "tag:network", "tag:pi", "tag:ai", "tag:oci", "tag:heritage", "tag:k8s", "tag:linux"],
+			"dst":    ["tag:network", "tag:ai", "tag:oci", "tag:k8s", "tag:linux"],
 			"users":  ["autogroup:nonroot", "crong", "deck"],
 		},
 	],
