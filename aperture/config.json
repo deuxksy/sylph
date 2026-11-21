@@ -1,119 +1,135 @@
 {
-    "providers": {
-        "DeepSeek-Cloud-Anthropic": {
-            "baseurl": "https://api.deepseek.com/anthropic",
-            "models": [
-                "claude-sonnet-4-5-20250929",
-                "claude-sonnet-4-5",
-                "claude-haiku-4-5-20251001",
-                "claude-haiku-4-5",
-                "claude-opus-4-6",
-                "claude-sonnet-4-6",
-                "deepseek-reasoner",
-                "deepseek-chat"
-            ],
-            "authorization": "x-api-key",
-            "compatibility": {
-                "anthropic_messages": true
-            },
-            "name": "DeepSeek",
-            "preference": 59,
-            "apikey": ""
-        },
-        "DeepSeek-Cloud-OpenAI": {
-            "baseurl": "https://api.deepseek.com",
-            "models": [
-                "deepseek-reasoner",
-                "deepseek-chat"
-            ],
-            "authorization": "bearer",
-            "compatibility": {
-                "openai_chat": true
-            },
-            "name": "DeepSeek",
-            "preference": 58,
-            "apikey": ""
-        },
-        "KiMi-Cloud-Anthropic": {
-            "baseurl": "https://api.kimi.com/coding/",
-            "models": [
-                "k3",
-                "k3-256k",
-                "kimi-for-coding"
-            ],
-            "authorization": "x-api-key",
-            "compatibility": {
-                "anthropic_messages": true
-            },
-            "name": "Kimi Code",
-            "preference": 79,
-            "apikey": ""
-        },
-        "KiMi-Cloud-OpenAI": {
-            "baseurl": "https://api.kimi.com/coding",
-            "models": [
-                "k3",
-                "k3-256k",
-                "kimi-for-coding"
-            ],
-            "authorization": "bearer",
-            "compatibility": {
-                "openai_chat": true
-            },
-            "name": "Kimi Code",
-            "preference": 78,
-            "apikey": ""
-        },
-        "Alibaba-Cloud-OpenAI": {
-            "baseurl": "https://dashscope.aliyuncs.com/compatible-mode/v1",
-            "models": [
-                "qwen-max",
-                "qwen-plus",
-                "qwen-turbo",
-                "qwen3.8-max",
-                "qwen3.5-397b"
-            ],
-            "authorization": "bearer",
-            "compatibility": {
-                "openai_chat": true
-            },
-            "name": "Alibaba Qwen",
-            "preference": 69,
-            "apikey": ""
-        },
-        "LiteLLM": {
-            "baseurl": "http://lllm:4000",
-            "models": [
-                "google/gemma-4-12b-it"
-            ],
-            "authorization": "bearer",
-            "compatibility": {
-                "openai_chat": true,
-                "openai_responses": false
-            },
-            "name": "LiteLLM",
-            "preference": 39,
-            "apikey": ""
-        }
-    },
-    "hooks": {},
-    "mcp": {},
-    "grants": [
-        {
-            "src": ["ksymailing@gmail.com", "*"],
-            "app": {
-                "tailscale.com/cap/aperture": [{"role": "admin"}]
-            }
-        },
-        {
-            "src": ["*"],
-            "app": {
-                "tailscale.com/cap/aperture": [
-                    {"role": "user"},
-                    {"mcp_tools": "**/**"},
-                    {"models": "**/**"}
-                ]
-            }
-        }
-    ]
+	"providers": {
+		"DeepSeek-Cloud-Anthropic": {
+			"baseurl": "https://api.deepseek.com/anthropic",
+			"models": [
+				"claude-sonnet-4-5-20250929",
+				"claude-sonnet-4-5",
+				"claude-haiku-4-5-20251001",
+				"claude-haiku-4-5",
+				"claude-opus-4-6",
+				"claude-sonnet-4-6",
+				"deepseek-reasoner",
+				"deepseek-chat"
+			],
+			"authorization": "x-api-key",
+			"compatibility": {
+				"anthropic_messages": true
+			},
+			"name":       "DeepSeek",
+			"preference": 59,
+			"apikey":     "keyid:p:DeepSeek-Cloud-Anthropic:sk-a..bdd1"
+		},
+		"DeepSeek-Cloud-OpenAI": {
+			"baseurl": "https://api.deepseek.com",
+			"models": [
+				"deepseek-reasoner",
+				"deepseek-chat"
+			],
+			"authorization": "bearer",
+			"compatibility": {
+				"openai_chat": true
+			},
+			"name":       "DeepSeek",
+			"preference": 58,
+			"apikey":     "keyid:p:DeepSeek-Cloud-OpenAI:sk-a..bdd1"
+		},
+		"KiMi-Cloud-Anthropic": {
+			"baseurl": "https://api.kimi.com/coding/",
+			"models": [
+				"k3",
+				"k3-256k",
+				"kimi-for-coding"
+			],
+			"authorization": "x-api-key",
+			"compatibility": {
+				"anthropic_messages": true
+			},
+			"name":       "Kimi Code",
+			"preference": 79,
+			"apikey":     "keyid:p:KiMi-Cloud-Anthropic:sk-k..CCTj"
+		},
+		"KiMi-Cloud-OpenAI": {
+			"baseurl": "https://api.kimi.com/coding",
+			"models": [
+				"k3",
+				"k3-256k",
+				"kimi-for-coding"
+			],
+			"authorization": "bearer",
+			"compatibility": {
+				"openai_chat": true
+			},
+			"name":       "Kimi Code",
+			"preference": 78,
+			"apikey":     "keyid:p:KiMi-Cloud-OpenAI:sk-k..CCTj"
+		},
+		"Alibaba-Cloud-OpenAI": {
+			"baseurl": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+			"models": [
+				"qwen-max",
+				"qwen-plus",
+				"qwen-turbo",
+				"qwen3.8-max",
+				"qwen3.5-397b"
+			],
+			"authorization": "bearer",
+			"compatibility": {
+				"openai_chat": true
+			},
+			"name":       "Alibaba Qwen",
+			"preference": 69,
+			"apikey":     ""
+		},
+		"LiteLLM": {
+			"baseurl": "http://lllm:4000",
+			"models": [
+				"google/gemma-4-12b-it"
+			],
+			"authorization": "bearer",
+			"compatibility": {
+				"openai_chat":      true,
+				"openai_responses": false
+			},
+			"name":       "LiteLLM",
+			"preference": 39,
+			"apikey":     "keyid:p:LiteLLM:sk-l..0516"
+		}
+	},
+	"hooks": {},
+	"mcp":   {},
+	"grants": [
+		{
+			"src": [
+				"ksymailing@gmail.com",
+				"*"
+			],
+			"app": {
+				"tailscale.com/cap/aperture": [
+					{
+						"role": "admin"
+					}
+				]
+			}
+		},
+		{
+			"src": [
+				"*"
+			],
+			"app": {
+				"tailscale.com/cap/aperture": [
+					{
+						"role": "user"
+					},
+					{
+						"mcp_tools": "**/**"
+					},
+					{
+						"models": "**/**"
+					}
+				]
+			}
+		}
+	]
 }
+

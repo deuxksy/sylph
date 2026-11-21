@@ -20,12 +20,31 @@ resource "tailscale_device_tags" "eve" {
   tags      = ["tag:mac"]
 }
 
-# ksymailing의 vLLM 학습/서빙 노드 — 무태그라 ssh 정책 dst 불일치, tag:linux로 편입
-data "tailscale_device" "keco_train_02" {
-  hostname = "keco-train-02"
+# azc2004의 Windows 데스크톱 — ava와 동일 패턴
+data "tailscale_device" "desktop_ntm6hbn" {
+  hostname = "DESKTOP-NTM6HBN"
 }
 
-resource "tailscale_device_tags" "keco_train_02" {
-  device_id = data.tailscale_device.keco_train_02.node_id
-  tags      = ["tag:linux", "tag:kyolim"]
+resource "tailscale_device_tags" "desktop_ntm6hbn" {
+  device_id = data.tailscale_device.desktop_ntm6hbn.node_id
+  tags      = ["tag:pc", "tag:windows"]
+}
+
+# ksymailing의 휴대폰 — ipad/iphone과 동일 패턴
+data "tailscale_device" "s25" {
+  hostname = "S25"
+}
+
+resource "tailscale_device_tags" "s25" {
+  device_id = data.tailscale_device.s25.node_id
+  tags      = ["tag:mobile"]
+}
+
+data "tailscale_device" "x13" {
+  hostname = "X13"
+}
+
+resource "tailscale_device_tags" "x13" {
+  device_id = data.tailscale_device.x13.node_id
+  tags      = ["tag:mobile"]
 }

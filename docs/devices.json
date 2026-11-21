@@ -11,10 +11,21 @@
     "hostname": "DESKTOP-NTM6HBN",
     "os": "windows",
     "user": "azc2004@gmail.com",
-    "tags": []
+    "tags": [
+      "tag:pc",
+      "tag:windows"
+    ]
   },
   {
-    "hostname": "ZZiZiLY-Z",
+    "hostname": "S25",
+    "os": "android",
+    "user": "ksymailing@gmail.com",
+    "tags": [
+      "tag:mobile"
+    ]
+  },
+  {
+    "hostname": "X13",
     "os": "android",
     "user": "ksymailing@gmail.com",
     "tags": [
@@ -108,24 +119,12 @@
     ]
   },
   {
-    "hostname": "keco-train-02",
-    "os": "linux",
-    "user": "ksymailing@gmail.com",
-    "tags": []
-  },
-  {
     "hostname": "lllm",
     "os": "linux",
     "user": "",
     "tags": [
       "tag:k8s"
     ]
-  },
-  {
-    "hostname": "localhost",
-    "os": "iOS",
-    "user": "azc2004@gmail.com",
-    "tags": []
   },
   {
     "hostname": "localhost",
@@ -141,14 +140,6 @@
     "user": "ksymailing@gmail.com",
     "tags": [
       "tag:oci"
-    ]
-  },
-  {
-    "hostname": "mo",
-    "os": "linux",
-    "user": "ksymailing@gmail.com",
-    "tags": [
-      "tag:server"
     ]
   },
   {
