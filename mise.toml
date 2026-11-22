@@ -25,3 +25,11 @@ description = "Aperture 설정 live 반영 — 주의: 실행 즉시 서비스 �
 [tasks.sync-config]
 run = "./scripts/sync-config.sh"
 description = "live 설정 → 로컬 스냅샷 동기화 (config.json·devices.json)"
+
+[tasks.test]
+run = "uv run pytest tests/test_local_tailscale.py -v"
+description = "로컬 Tailscale 상태 점검 (pytest-testinfra)"
+
+[tasks.test-aperture]
+run = "bash tests/apply-aperture-test.sh"
+description = "apply-aperture.sh 유닛 테스트 (bash)"
