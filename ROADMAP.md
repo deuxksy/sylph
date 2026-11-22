@@ -4,11 +4,12 @@
 
 ## Python 기반 인프라 자동화 스택
 
-상태: 장기 과제 (시작 미정) · 등록: 2026-11-22
+상태: 진행 중 — 태스크 러너 완료(2026-11-22, `v1.1.0` 예정), 검증 계층·Python 도구체인 대기 · 등록: 2026-11-22
 
 ### 버전 체계
 
 - 세대 구분 (2026-11-22 결정): 기존 시스템(OpenTofu·Ansible·bash, `YYMMDDHHMM` timestamp 태그) = **v1** (릴리즈 태그 `v1.0.0`), Python 스택 전환 = **v2** (`v2.0.0`)
+- 세대 내 릴리즈는 SemVer로: 기능 추가 = minor, 수정 = patch (예: mise tasks 진입점 = `v1.1.0`)
 - 과거 SemVer 태그(v0.1.0·v0.2.0, 2026-07)는 초기 실험기 유물로 존치
 - v2 완료 시점에 `v2.0.0` 태그 생성
 
@@ -19,14 +20,13 @@
 - Python 버전: `mise.toml`에 `3.14` 고정. 근거(2026-11-22 실측): pyinfra 3.11.2·pytest 9.2.0·poethepoet 0.49.0이 PyPI classifier에 3.14까지 공식 선언, 이슈 트래커에 3.14 관련 open 이슈 없음. 3.15는 아직 pyinfra·poethepoet 미선언. 3.14 EOL 2030-10로 가장 긴 지원 기간
 - 패키지 관리: uv + uvx
 
-### Phase 1 — 검증 계층 (우선)
+### Phase 1 — 검증 계층 (진행 중)
 
-- Testinfra: 배포 후 포트·데몬·파일 상태 검증을 pytest로 자동화. 수동 검증(tofu plan 3-way 일치 등)을 대체
+- 태스크 러너: **완료** (2026-11-22, `v1.1.0`) — mise tasks로 확정. `mise.toml [tasks]` 선언적 진입점, 스크립트 본체 무수정. 설계·플랜: `docs/superpowers/specs/2026-11-22-mise-tasks-design.md`·`docs/superpowers/plans/2026-11-22-mise-tasks.md`
+  - poethepoet은 `pyproject.toml` 도입 시 재평가, invoke 탈락(유지관리 정체·Python 재작성 필요)
+- Testinfra (대기): 배포 후 포트·데몬·파일 상태 검증을 pytest로 자동화. 수동 검증(tofu plan 3-way 일치 등)을 대체
   - 설치명 주의: PyPI 분포명은 `pytest-testinfra`(10.2.2, 2025-03). `testinfra`라는 옛 분포명은 2020년에 멈춘 유령 패키지(6.0.0)
   - 유지보수 저활동(연 1회 릴리즈 수준)이지만 pytest 얹은 얇은 플러그인이라 파손 표면 작음
-- 태스크 러너: **mise tasks 확정** (2026-11-22 시행) — `mise.toml [tasks]` 선언적 진입점, 모든 AI agent가 `mise tasks ls`로 자가발견. 스크립트 본체는 무수정
-  - poethepoet은 `pyproject.toml` 도입 시점(Phase 1 정식 착수)에 재평가 — mise 태스크가 uv 실행을 커버하므로 uv 표준과 충돌 없음
-  - invoke 탈락: 단일 유지관리자 정체(2026-04 이후 무활동), 신버전 Python 대응 지연 전례(pyinvoke/invoke#1015), Python 재작성 필요
 
 ### Phase 2 — 구성 관리 대체 (조건부)
 
