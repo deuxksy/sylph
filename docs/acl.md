@@ -1,7 +1,7 @@
 # Tailscale ACL 문서
 
-> 자동 생성일: 2026-11-21 23:28:53 +0900
-> 커밋: `dd306ed` (Crong)
+> 자동 생성일: 2026-11-21 23:55:37 +0900
+> 커밋: `00bc0aa` (Crong)
 
 ---
 
@@ -23,6 +23,8 @@
 
 | 태그 | 소유자 |
 |------|--------|
+| `tag:walle-ssh-test` | group:admin |
+| `tag:eve-ssh-test` | group:admin |
 | `tag:https` | group:member, group:develop, group:admin, autogroup:admin |
 | `tag:k8s` | tag:k8s-operator |
 | `tag:k8s-operator` | group:member, group:develop, group:admin, autogroup:admin |
@@ -51,6 +53,7 @@
 
 | 액션 | 소스 | 대상 | 허용 사용자 |
 |------|------|------|-------------|
+| accept | `tag:walle-ssh-test` | `tag:eve-ssh-test` | `crong` |
 | accept | `group:admin, group:member, group:develop, autogroup:admin` | `tag:network, tag:ai, tag:oci, tag:k8s, tag:linux, autogroup:self` | `autogroup:nonroot, crong, deck` |
 | accept | `tag:mac, tag:pc, tag:ai` | `tag:network, tag:ai, tag:oci, tag:k8s, tag:linux` | `autogroup:nonroot, crong, deck` |
 
@@ -68,6 +71,7 @@ graph TB
     subgraph "태그"
         T-ai["tag:ai"]
         T-android["tag:android"]
+        T-eve-ssh-test["tag:eve-ssh-test"]
         T-https["tag:https"]
         T-ios["tag:ios"]
         T-k8s["tag:k8s"]
@@ -79,9 +83,12 @@ graph TB
         T-network["tag:network"]
         T-oci["tag:oci"]
         T-pc["tag:pc"]
+        T-walle-ssh-test["tag:walle-ssh-test"]
         T-windows["tag:windows"]
     end
 
+    G-admin -->|소유| T-walle-ssh-test
+    G-admin -->|소유| T-eve-ssh-test
     G-member -->|소유| T-https
     G-develop -->|소유| T-https
     G-admin -->|소유| T-https
@@ -140,7 +147,7 @@ graph TB
     classDef tagStyle fill:#f3e5f5,stroke:#4a148c
 
     class G-admin G-member G-develop  groupStyle
-    class T-ai T-android T-https T-ios T-k8s T-k8s-operator T-kyolim T-linux T-mac T-mobile T-network T-oci T-pc T-windows  tagStyle
+    class T-ai T-android T-eve-ssh-test T-https T-ios T-k8s T-k8s-operator T-kyolim T-linux T-mac T-mobile T-network T-oci T-pc T-walle-ssh-test T-windows  tagStyle
 ```
 
 

@@ -39,6 +39,16 @@ resource "tailscale_device_tags" "eve" {
   tags      = ["tag:mac"]
 }
 
+data "tailscale_device" "eve_ssh_test" {
+  name = "eve-ssh-test.bun-bull.ts.net"
+}
+
+resource "tailscale_device_tags" "eve_ssh_test" {
+  depends_on = [tailscale_acl.acl]
+  device_id  = data.tailscale_device.eve_ssh_test.node_id
+  tags       = ["tag:eve-ssh-test"]
+}
+
 # azc2004의 Windows 데스크톱 — ava와 동일 패턴
 data "tailscale_device" "desktop_ntm6hbn" {
   hostname = "DESKTOP-NTM6HBN"
@@ -101,8 +111,9 @@ data "tailscale_device" "walle" {
 }
 
 resource "tailscale_device_tags" "walle" {
-  device_id = data.tailscale_device.walle.node_id
-  tags      = ["tag:linux"]
+  depends_on = [tailscale_acl.acl]
+  device_id  = data.tailscale_device.walle.node_id
+  tags       = ["tag:linux", "tag:walle-ssh-test"]
 }
 
 data "tailscale_device" "heritage" {
