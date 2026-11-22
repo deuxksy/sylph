@@ -45,6 +45,11 @@ Sylph는 Tailscale ACL 정책(`opentofu/policy.hujson`)을 관리·문서화하�
 - 수동 복호화: `sops -d --input-type json --output-type binary .env.sops > .env`
 - `scripts/tofu.sh`, `scripts/tag-device.sh`는 dotenv → JSON 순으로 형식 자동 감지
 
+### Python 도구체인·테스트
+- Python 3.14: `mise.toml [tools]` + `.python-version`으로 고정. 의존은 `pyproject.toml` `[dependency-groups]` dev(pytest·pytest-testinfra·json5) + `uv.lock`
+- 테스트: `mise run test`(로컬 Tailscale 상태 점검, testinfra), `mise run test-aperture`(bash 유닛 테스트)
+- 태스크에서 `python3`를 쓰는 스크립트는 `uv run`으로 실행하고 그 파이썬 의존은 dev group에 선언한다 — 시스템 python에 우연히 설치된 패키지 의존 금지
+
 ## ACL 수정 Workflow
 
 1. `opentofu/policy.hujson` 수정

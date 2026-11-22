@@ -18,6 +18,10 @@ mise tasks ls
 ```
 
 ```bash
+mise run test
+```
+
+```bash
 ansible-playbook -i ansible/inventory.ini ansible/tailscale-macos.yml --limit macos_bootstrap --list-hosts
 ```
 
