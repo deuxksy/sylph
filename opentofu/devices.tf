@@ -29,7 +29,7 @@ resource "tailscale_device_tags" "iphone" {
 }
 
 data "tailscale_device" "eve_ssh_test" {
-  name = "eve-ssh-test.bun-bull.ts.net"
+  name = "eve.bun-bull.ts.net"
 }
 
 resource "tailscale_device_tags" "eve_ssh_test" {
