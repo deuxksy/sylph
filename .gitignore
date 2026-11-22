@@ -42,3 +42,4 @@ crash.log
 keys.txt
 .venv/
 __pycache__/
+.pytest_cache/
