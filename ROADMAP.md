@@ -24,8 +24,8 @@
 - Testinfra: 배포 후 포트·데몬·파일 상태 검증을 pytest로 자동화. 수동 검증(tofu plan 3-way 일치 등)을 대체
   - 설치명 주의: PyPI 분포명은 `pytest-testinfra`(10.2.2, 2025-03). `testinfra`라는 옛 분포명은 2020년에 멈춘 유령 패키지(6.0.0)
   - 유지보수 저활동(연 1회 릴리즈 수준)이지만 pytest 얹은 얇은 플러그인이라 파손 표면 작음
-- poethepoet: `scripts/*.sh` 태스크를 `pyproject.toml` `[tool.poe.tasks]`로 통합, `uv run poe`로 실행
-  - 선택(2026-11-22): uv 표준 도구체인 — uv·hatch·pdm 생태계의 사실상 표준 태스크 러너. 활발(0.49.0, 2026-10), 3.14 지원. 기존 sh를 명령 문자열로 즉시 랩 후 점진적 내재화
+- 태스크 러너: **mise tasks 확정** (2026-11-22 시행) — `mise.toml [tasks]` 선언적 진입점, 모든 AI agent가 `mise tasks ls`로 자가발견. 스크립트 본체는 무수정
+  - poethepoet은 `pyproject.toml` 도입 시점(Phase 1 정식 착수)에 재평가 — mise 태스크가 uv 실행을 커버하므로 uv 표준과 충돌 없음
   - invoke 탈락: 단일 유지관리자 정체(2026-04 이후 무활동), 신버전 Python 대응 지연 전례(pyinvoke/invoke#1015), Python 재작성 필요
 
 ### Phase 2 — 구성 관리 대체 (조건부)

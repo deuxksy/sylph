@@ -14,6 +14,10 @@ GitHub Actions는 정책 변경 PR에서 OpenTofu Plan을 실행합니다. 관�
 ## 빠른 확인
 
 ```bash
+mise tasks ls
+```
+
+```bash
 ansible-playbook -i ansible/inventory.ini ansible/tailscale-macos.yml --limit macos_bootstrap --list-hosts
 ```
 
