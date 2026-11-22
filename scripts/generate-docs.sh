@@ -13,7 +13,7 @@ Generate documentation from Tailscale ACL policy.hujson
 Options:
   -p, --policy FILE     Path to policy.hujson (default: opentofu/policy.hujson)
   -o, --output DIR      Output directory (default: ../docs)
-  --pr-comment          Generate PR comment diff (.pr-comment.md)
+  --pr-comment          Generate PR comment diff in the output directory
   --compare REF         Git ref to compare (default: HEAD~1)
   -h, --help            Show this help message
   -v, --verbose         Enable verbose output
@@ -504,11 +504,12 @@ generate_pr_comment() {
     local metadata
     local commit_hash
     local commit_date
+    local comment_file="$OUTPUT_DIR/.pr-comment.md"
 
     metadata=$(get_metadata)
     IFS='|' read -r commit_hash commit_date _ <<< "$metadata"
 
-    cat > ".pr-comment.md" << PR_COMMENT
+    cat > "$comment_file" << PR_COMMENT
 ## 📋 ACL 변경사항 요약
 
 **커밋:** \`$commit_hash\`
@@ -526,21 +527,21 @@ PR_COMMENT
 
     case "$change_type" in
         "NEW")
-            echo "**상태:** 🆕 새로운 ACL 정책 파일" >> ".pr-comment.md"
+            echo "**상태:** 🆕 새로운 ACL 정책 파일" >> "$comment_file"
             ;;
         "NOGIT")
-            echo "**상태:** ⚠️ Git 이력 없음 (변경 추적 불가)" >> ".pr-comment.md"
+            echo "**상태:** ⚠️ Git 이력 없음 (변경 추적 불가)" >> "$comment_file"
             ;;
         "CHANGES")
             IFS='|' read -r _ modified added deleted <<< "$comparison"
-            echo "**상태:** 📝 ACL 정책 수정" >> ".pr-comment.md"
-            echo "" >> ".pr-comment.md"
-            echo "변경된 섹션: $modified개" >> ".pr-comment.md"
-            echo "라인 변경: $added / $deleted" >> ".pr-comment.md"
+            echo "**상태:** 📝 ACL 정책 수정" >> "$comment_file"
+            echo "" >> "$comment_file"
+            echo "변경된 섹션: $modified개" >> "$comment_file"
+            echo "라인 변경: $added / $deleted" >> "$comment_file"
             ;;
     esac
 
-    cat >> ".pr-comment.md" << 'PR_COMMENT_END'
+    cat >> "$comment_file" << 'PR_COMMENT_END'
 
 ---
 
@@ -550,7 +551,7 @@ PR_COMMENT
 
 PR_COMMENT_END
 
-    log_info "✓ PR comment generated: .pr-comment.md"
+    log_info "✓ PR comment generated: $comment_file"
 }
 
 main() {
@@ -564,7 +565,7 @@ main() {
     if [[ "$VERBOSE" == "true" ]]; then
         cat "$OUTPUT_DIR/acl.md"
         if [[ "$PR_COMMENT" == "true" ]]; then
-            cat ".pr-comment.md"
+            cat "$OUTPUT_DIR/.pr-comment.md"
         fi
     fi
 }
