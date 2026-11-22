@@ -1,7 +1,7 @@
 # Tailscale ACL 문서
 
-> 자동 생성일: 2026-11-22 13:31:19 +0900
-> 커밋: `8b725e2` (Crong)
+> 자동 생성일: 2026-11-22 13:32:56 +0900
+> 커밋: `21e91b2` (Crong)
 
 ---
 
@@ -54,7 +54,8 @@
 |------|------|------|-------------|
 | accept | `tag:walle-ssh-test` | `tag:mac` | `crong` |
 | accept | `group:admin, group:member, group:develop, autogroup:admin` | `tag:network, tag:ai, tag:oci, tag:k8s, tag:linux, autogroup:self` | `autogroup:nonroot, crong, deck` |
-| accept | `tag:mac, tag:pc, tag:ai` | `tag:network, tag:ai, tag:oci, tag:k8s, tag:linux` | `autogroup:nonroot, crong, deck` |
+| accept | `tag:pc` | `tag:network, tag:ai, tag:oci, tag:k8s, tag:linux, tag:mac, tag:pc, tag:windows` | `autogroup:nonroot, crong, deck` |
+| accept | `tag:mac, tag:ai` | `tag:network, tag:ai, tag:oci, tag:k8s, tag:linux` | `autogroup:nonroot, crong, deck` |
 
 
 ## 📊 네트워크 연결 다이어그램

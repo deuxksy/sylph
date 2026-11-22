@@ -72,10 +72,17 @@
 			"users":  ["autogroup:nonroot", "crong", "deck"],
 		},
 		// 태그 디바이스는 소유자 대신 tag로 식별 — autogroup:self와 같은 규칙에 병합 불가(API 400)라 분리
-		// tag:mac/pc: 워크스테이션 클라이언트(eve/axiom), tag:ai: Aperture 노드가 TailnetSSH MCP 클라이언트
+		// tag:pc 워크스테이션에서 서버와 다른 워크스테이션으로 SSH 허용
 		{
 			"action": "accept",
-			"src":    ["tag:mac", "tag:pc", "tag:ai"],
+			"src":    ["tag:pc"],
+			"dst":    ["tag:network", "tag:ai", "tag:oci", "tag:k8s", "tag:linux", "tag:mac", "tag:pc", "tag:windows"],
+			"users":  ["autogroup:nonroot", "crong", "deck"],
+		},
+		// tag:mac 워크스테이션과 tag:ai Aperture 노드의 기존 서버 접근 허용
+		{
+			"action": "accept",
+			"src":    ["tag:mac", "tag:ai"],
 			"dst":    ["tag:network", "tag:ai", "tag:oci", "tag:k8s", "tag:linux"],
 			"users":  ["autogroup:nonroot", "crong", "deck"],
 		},
