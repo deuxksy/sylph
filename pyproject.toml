@@ -6,6 +6,7 @@ dependencies = []
 
 [dependency-groups]
 dev = [
+    "json5>=0.17.3",
     "pytest",
     "pytest-testinfra",
 ]

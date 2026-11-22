@@ -5,7 +5,7 @@ python = "3.14"
 enter = "git pull --ff-only"
 
 [tasks.docs]
-run = "./scripts/generate-docs.sh"
+run = "uv run ./scripts/generate-docs.sh"
 description = "ACL 문서 재생성"
 sources = ["opentofu/policy.hujson", "scripts/generate-docs.sh"]
 outputs = ["docs/okf/reference/acl.md"]
