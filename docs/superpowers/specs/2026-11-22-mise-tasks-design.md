@@ -12,7 +12,7 @@
 
 ## 목표 / 비목표
 
-- 목표: 스크립트 5개의 mise 태스크 랩, agent 발견 경로 단일화
+- 목표: `scripts/*.sh` 전체의 mise 태스크 랩, agent 발견 경로 단일화
 - 비목표: 스크립트 본체 수정, Python 도구체인 도입(3.14 고정·pytest는 Phase 1 정식 착수 때)
 
 ## 접근 방식 (비교한 대안)
@@ -56,7 +56,7 @@ desc = "live 설정 → 로컬 스냅샷 동기화 (config.json·devices.json)"
 
 - 인자 전달: 태스크명 뒤 인자가 스크립트로 그대로 전달됨 (`mise run tofu plan`,
   `mise run docs -- --pr-comment`)
-- `.ai/RULES.md` 스크립트 설명에 mise 진입점 한 줄 추가
+- `.ai/RULES.md`·`README.md`에 mise 진입점·`mise tasks ls` 발견 경로 언급 추가
 - `ROADMAP.md` Phase 1 갱신: 태스크 러너 = mise tasks 확정, poethepoet 재평가 조건 명시
 
 ## 내 판단 (거부 가능)
@@ -66,7 +66,7 @@ desc = "live 설정 → 로컬 스냅샷 동기화 (config.json·devices.json)"
 
 ## 검증
 
-1. `mise tasks ls` — 태스크 5개 노출 확인
+1. `mise tasks ls` — 선언한 태스크 전체 노출 확인
 2. `mise run docs` — 실행 후 본문 diff 없음(헤더 생성일·커밋 hash만 갱신)
 3. `mise run tofu` — 무인자 시 usage 출력이 직접 실행과 일치
 
