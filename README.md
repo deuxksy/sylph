@@ -12,7 +12,7 @@ Sylph는 Tailscale ACL 정책(`opentofu/policy.hujson`)을 OpenTofu로 관리하
 | 문서 | 분류 | 설명 |
 | :--- | :--- | :--- |
 | [docs/acl.md](docs/acl.md) | Reference | ACL 정책 문서 (`./scripts/generate-docs.sh` 자동 생성) |
-| [docs/network-diagram.md](docs/network-diagram.md) | Reference | 네트워크 연결 다이어그램 |
+| [네트워크 연결 다이어그램](docs/okf/reference/network-diagram.md) | Reference | 네트워크 연결 다이어그램 |
 | [docs/devices.json](docs/devices.json) | Reference | Tailnet 디바이스 스냅샷 (`./scripts/sync-config.sh` 생성) |
 
 ## 라이선스
