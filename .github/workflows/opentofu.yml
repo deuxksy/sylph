@@ -52,9 +52,6 @@ jobs:
 
       - name: Validate configuration
         working-directory: ./opentofu
-        env:
-          TAILSCALE_API_KEY: ${{ secrets.TS_API_SECRET }}
-          TAILSCALE_TAILNET: ${{ vars.TS_TAILNET_ID }}
         run: tofu validate
 
       - name: Create plan
@@ -63,17 +60,23 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          TAILSCALE_API_KEY: ${{ secrets.TS_API_SECRET }}
+          TAILSCALE_OAUTH_CLIENT_ID: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          TAILSCALE_OAUTH_CLIENT_SECRET: ${{ secrets.TS_OAUTH_CLIENT_SECRET }}
           TAILSCALE_TAILNET: ${{ vars.TS_TAILNET_ID }}
           TF_INPUT: false
         run: |
-          tofu plan -no-color -json > tfplan.json 2>&1 || true
-          tofu plan -no-color > tfplan.txt 2>&1 || true
+          plan_status=0
+          tofu plan -no-color -json > tfplan.json 2>&1 || plan_status=$?
+          tofu plan -no-color > tfplan.txt 2>&1 || plan_status=$?
           {
             echo "json<<EOF"
             cat tfplan.json
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
+          if [ "$plan_status" -ne 0 ]; then
+            cat tfplan.txt >&2
+            exit "$plan_status"
+          fi
 
       - name: Upload plan artifact
         if: always()
@@ -95,7 +98,12 @@ jobs:
               return;
             }
 
-            const planText = fs.readFileSync('opentofu/tfplan.txt', 'utf8');
+            const planPath = 'opentofu/tfplan.txt';
+            if (!fs.existsSync(planPath)) {
+              console.log('No OpenTofu plan was generated.');
+              return;
+            }
+            const planText = fs.readFileSync(planPath, 'utf8');
             const output = `## 📋 OpenTofu Plan
             \`\`\`
             ${planText}
@@ -136,7 +144,8 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          TAILSCALE_API_KEY: ${{ secrets.TS_API_SECRET }}
+          TAILSCALE_OAUTH_CLIENT_ID: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          TAILSCALE_OAUTH_CLIENT_SECRET: ${{ secrets.TS_OAUTH_CLIENT_SECRET }}
           TAILSCALE_TAILNET: ${{ vars.TS_TAILNET_ID }}
           TF_INPUT: false
         run: tofu apply -auto-approve
