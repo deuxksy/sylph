@@ -1,2 +1,24 @@
 [hooks]
 enter = "git pull --ff-only"
+
+[tasks.docs]
+run = "./scripts/generate-docs.sh"
+description = "ACL 문서 재생성"
+sources = ["opentofu/policy.hujson", "scripts/generate-docs.sh"]
+outputs = ["docs/okf/reference/acl.md"]
+
+[tasks.tofu]
+run = "./scripts/tofu.sh"
+description = "OpenTofu 래퍼 — mise run tofu plan"
+
+[tasks.tag-device]
+run = "./scripts/tag-device.sh"
+description = "디바이스 태그 부여 — mise run tag-device <hostname> <tag>"
+
+[tasks.apply-aperture]
+run = "./scripts/apply-aperture.sh"
+description = "Aperture 설정 live 반영 — 주의: 실행 즉시 서비스 변경"
+
+[tasks.sync-config]
+run = "./scripts/sync-config.sh"
+description = "live 설정 → 로컬 스냅샷 동기화 (config.json·devices.json)"
