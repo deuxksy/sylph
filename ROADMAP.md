@@ -4,7 +4,7 @@
 
 ## Python 기반 인프라 자동화 스택
 
-상태: 진행 중 — 태스크 러너 완료(2026-11-22, `v1.1.0` 예정), 검증 계층·Python 도구체인 대기 · 등록: 2026-11-22
+상태: 진행 중 — 태스크 러너·도구체인·로컬 검증 완료(2026-11-22, `v1.1.0`·`v1.2.0`), 원격 SSH·drift 점검 대기 · 등록: 2026-11-22
 
 ### 버전 체계
 
@@ -17,16 +17,17 @@
 
 ### 공통 — 도구체인
 
-- Python 버전: `mise.toml`에 `3.14` 고정. 근거(2026-11-22 실측): pyinfra 3.11.2·pytest 9.2.0·poethepoet 0.49.0이 PyPI classifier에 3.14까지 공식 선언, 이슈 트래커에 3.14 관련 open 이슈 없음. 3.15는 아직 pyinfra·poethepoet 미선언. 3.14 EOL 2030-10로 가장 긴 지원 기간
+- Python 버전: `mise.toml`에 `3.14` 고정 — 시행 완료(2026-11-22, mise `[tools]` + `.python-version`). 근거(2026-11-22 실측): pyinfra 3.11.2·pytest 9.2.0·poethepoet 0.49.0이 PyPI classifier에 3.14까지 공식 선언. 3.14 EOL 2030-10로 가장 긴 지원 기간
 - 패키지 관리: uv + uvx
 
 ### Phase 1 — 검증 계층 (진행 중)
 
 - 태스크 러너: **완료** (2026-11-22, `v1.1.0`) — mise tasks로 확정. `mise.toml [tasks]` 선언적 진입점, 스크립트 본체 무수정. 설계·플랜: `docs/superpowers/specs/2026-11-22-mise-tasks-design.md`·`docs/superpowers/plans/2026-11-22-mise-tasks.md`
   - poethepoet은 `pyproject.toml` 도입 시 재평가, invoke 탈락(유지관리 정체·Python 재작성 필요)
-- Testinfra (대기): 배포 후 포트·데몬·파일 상태 검증을 pytest로 자동화. 수동 검증(tofu plan 3-way 일치 등)을 대체
-  - 설치명 주의: PyPI 분포명은 `pytest-testinfra`(10.2.2, 2025-03). `testinfra`라는 옛 분포명은 2020년에 멈춘 유령 패키지(6.0.0)
-  - 유지보수 저활동(연 1회 릴리즈 수준)이지만 pytest 얹은 얇은 플러그인이라 파손 표면 작음
+- 로컬 상태 점검: **완료** (2026-11-22, `v1.2.0`) — `tests/test_local_tailscale.py` 6종(바이너리·launchd running·RunAtLoad·BackendState·RunSSH·disabled), `mise run test`. 설계·플랜: `docs/superpowers/{specs,plans}/2026-11-22-phase1-testinfra*`
+- 원격 노드 SSH 점검 (대기): Testinfra ssh backend × Tailscale SSH(paramiko) 조합 미검증 — 스파이크 선행
+- tofu drift 점검 (대기): tofu plan 3-way 일치·디바이스 태그 일치를 pytest로
+- 설치명 주의: PyPI 분포명은 `pytest-testinfra`. `testinfra`라는 옛 분포명은 2020년에 멈춘 유령 패키지
 
 ### Phase 2 — 구성 관리 대체 (조건부)
 
