@@ -6,7 +6,6 @@
 	},
 
 	"tagOwners": {
-		"tag:walle-ssh-test": ["group:admin"],
 		"tag:https":    		["group:member", "group:develop", "group:admin", "autogroup:admin"],
 		"tag:k8s":          	["tag:k8s-operator"],
 		"tag:k8s-operator": 	["group:member", "group:develop", "group:admin", "autogroup:admin"],
@@ -59,12 +58,6 @@
 	],
 
 	"ssh": [
-		{
-			"action": "accept",
-			"src":    ["tag:walle-ssh-test"],
-			"dst":    ["tag:mac"],
-			"users":  ["crong"],
-		},
 		{
 			"action": "accept",
 			"src":    ["group:admin", "group:member", "group:develop", "autogroup:admin"],

@@ -100,9 +100,8 @@ data "tailscale_device" "walle" {
 }
 
 resource "tailscale_device_tags" "walle" {
-  depends_on = [tailscale_acl.acl]
-  device_id  = data.tailscale_device.walle.node_id
-  tags       = ["tag:linux", "tag:walle-ssh-test"]
+  device_id = data.tailscale_device.walle.node_id
+  tags      = ["tag:linux"]
 }
 
 data "tailscale_device" "heritage" {
