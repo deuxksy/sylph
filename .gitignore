@@ -39,4 +39,6 @@ Thumbs.db
 *.tfstate.*
 crash.log
 
-keys.txt.venv/
+keys.txt
+.venv/
+__pycache__/
