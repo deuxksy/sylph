@@ -25,6 +25,9 @@
 
 ## 설계
 
+> **Errata (2026-11-22)**: 아래 TOML의 `desc` 필드는 mise 스키마에 없다(실측 parse error).
+> 구현은 `description`을 사용했다. 자세한 내용은 구현 ledger 판정 기록 참조.
+
 ```toml
 [tasks.docs]
 run = "./scripts/generate-docs.sh"

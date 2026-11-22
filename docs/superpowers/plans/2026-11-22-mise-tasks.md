@@ -1,6 +1,6 @@
 # mise tasks 진입점 Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** `scripts/*.sh`를 `mise.toml [tasks]` 선언적 진입점으로 랩해 모든 AI agent가 `mise tasks ls`로 자가발견하게 한다.
 
@@ -36,7 +36,7 @@
 - Consumes: `scripts/generate-docs.sh`, `scripts/tofu.sh`, `scripts/tag-device.sh`, `scripts/apply-aperture.sh`, `scripts/sync-config.sh` (무수정)
 - Produces: `mise run <task> [args...]` 진입점 5종, `mise tasks ls` 목록
 
-- [ ] **Step 1: mise.toml에 태스크 블록 추가**
+- [x] **Step 1: mise.toml에 태스크 블록 추가**
 
 기존 `[hooks]` 섹션 뒤에 추가 (spec의 TOML 그대로):
 
@@ -64,27 +64,27 @@ run = "./scripts/sync-config.sh"
 desc = "live 설정 → 로컬 스냅샷 동기화 (config.json·devices.json)"
 ```
 
-- [ ] **Step 2: 설정 파싱 검증**
+- [x] **Step 2: 설정 파싱 검증**
 
 Run: `mise tasks ls`
 Expected: 선언한 태스크가 이름·desc와 함께 목록에 나열 (하이픈 이름 포함, apply-aperture 경고 desc 보임). 에러 없으면 `[hooks]`와 공존 확인도 겸함.
 
-- [ ] **Step 3: 무인자 usage passthrough 검증**
+- [x] **Step 3: 무인자 usage passthrough 검증**
 
 Run: `mise run tag-device`
 Expected: `Error: hostname and tag are required` + Usage 출력 — 직접 실행(`./scripts/tag-device.sh`)과 동일. exit non-zero.
 
-- [ ] **Step 4: 인자 passthrough 검증**
+- [x] **Step 4: 인자 passthrough 검증**
 
 Run: `mise run tofu -- --help 2>&1 | head -3` 와 `./scripts/tofu.sh -- --help 2>&1 | head -3` 출력 비교 — 아니면 `mise run tofu` (무인자 tofu usage)로 대체.
 Expected: 두 경로 모두 tofu 본체 usage 출력.
 
-- [ ] **Step 5: docs 본문 멱등 검증**
+- [x] **Step 5: docs 본문 멱등 검증**
 
 Run: `mise run docs && git diff --stat docs/okf/reference/acl.md`
 Expected: diff가 헤더 2줄(자동 생성일·커밋 hash)만 변경. 확인 후 `git restore docs/okf/reference/acl.md`로 원복.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add mise.toml
@@ -102,7 +102,7 @@ git commit -m "feat(mise): 스크립트 5개 태스크 진입점 추가"
 - Consumes: Task 1의 태스크명
 - Produces: 문서 기록 (agent·인간 발견 경로 단일화)
 
-- [ ] **Step 1: `.ai/RULES.md` 발견 안내 + 스크립트별 진입점**
+- [x] **Step 1: `.ai/RULES.md` 발견 안내 + 스크립트별 진입점**
 
 - 발견 안내: 스크립트 관련 섹션 상단 적절한 곳에 "실행 가능한 작업은 `mise tasks ls`로 확인" 한 줄
 - `### scripts/generate-docs.sh` 섹션: `mise run docs` 언급
@@ -110,19 +110,19 @@ git commit -m "feat(mise): 스크립트 5개 태스크 진입점 추가"
 - `### opentofu/` 섹션(tofu.sh 사용법): `mise run tofu plan|apply|...` 언급
 - `apply-aperture.sh`·`sync-config.sh`는 RULES.md에 섹션이 없으므로 추가하지 않음 (Surgical Changes)
 
-- [ ] **Step 2: `README.md` 빠른 확인 섹션에 발견 명령 추가**
+- [x] **Step 2: `README.md` 빠른 확인 섹션에 발견 명령 추가**
 
 기존 ansible `--list-hosts` 명령 앞에 `mise tasks ls` 한 줄 추가 (문서 인덱스 역할 유지, 상세 불필요)
 
-- [ ] **Step 3: ROADMAP.md Phase 1 갱신**
+- [x] **Step 3: ROADMAP.md Phase 1 갱신**
 
 태스크 러너 항목을: mise tasks로 확정(2026-11-22 시행), poethepoet은 `pyproject.toml` 도입 시점 재평가로 변경. 시행 결과 한 줄 포함.
 
-- [ ] **Step 4: 검증**
+- [x] **Step 4: 검증**
 
 Run: `grep -c 'mise' .ai/RULES.md` → 4 이상, `grep -c 'mise tasks' README.md` → 1. `mise tasks ls` 여전히 정상.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add .ai/RULES.md README.md ROADMAP.md
