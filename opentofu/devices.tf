@@ -35,7 +35,7 @@ data "tailscale_device" "eve_ssh_test" {
 resource "tailscale_device_tags" "eve_ssh_test" {
   depends_on = [tailscale_acl.acl]
   device_id  = data.tailscale_device.eve_ssh_test.node_id
-  tags       = ["tag:mac", "tag:eve-ssh-test"]
+  tags       = ["tag:mac"]
 }
 
 # azc2004의 Windows 데스크톱 — ava와 동일 패턴
