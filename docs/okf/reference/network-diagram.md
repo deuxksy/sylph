@@ -1,101 +1,48 @@
 # Tailscale 네트워크 다이어그램
 
-생성일: 2026-03-09
+2026-11-22 기준. 장비 전체 목록은 [Tailnet 디바이스 스냅샷](./devices.json)에서 확인할 수 있습니다.
 
-## 네트워크 topology
+## 네트워크 구성
 
 ```mermaid
-%%{init: {'theme': 'dark'}}%%
 graph TB
-    subgraph "Tailnet: ksymailing@gmail.com"
-        subgraph "Mobile (tag:mobile)"
-            M1[13-mini<br/>iOS]
-            M2[pro<br/>iOS]
-            M3[z-5<br/>Android]
+    subgraph Tailnet
+        subgraph Workstations["Mac · Windows"]
+            Eve["eve · axiom · tag:mac, tag:pc"]
+            PC["ava · azc2004-pc · tag:pc, tag:windows"]
         end
-        
-        subgraph "PC (tag:pc)"
-            PC1[eve<br/>macOS]
-            PC2[Surface<br/>Windows]
+        subgraph Mobile["모바일 · tag:mobile"]
+            IOS["iphone · ipad · tag:ios"]
+            Android["s25 · x13 · hy450max · tag:android"]
         end
-        
-        subgraph "Server (tag:server)"
-            S1[girl<br/>Linux]
-            S2[walle<br/>Linux<br/>Exit Node]
+        subgraph Linux["Linux · tag:linux"]
+            Walle["walle"]
+            LT["lt · tag:oci"]
+            Servers["girl · heritage · brla"]
         end
-        
-        subgraph "Infrastructure"
-            I1[heritage<br/>Linux<br/>tag:docker]
-            I2[arv<br/>Linux<br/>tag:https, tag:network<br/>Subnet Router]
+        subgraph Infra["인프라"]
+            Arv["arv · tag:network, tag:https"]
+            Steward["steward · tag:network"]
+            AI["ai · tag:ai"]
         end
     end
-    
-M1 & M2 & M3 -.-> PC1
-    M1 & M2 & M3 -.-> PC2
-    M1 & M2 & M3 -.-> S1
-    M1 & M2 & M3 -.-> S2
-    M1 & M2 & M3 -.-> I1
-    M1 & M2 & M3 -.-> I2
 
-    PC1 -.-> S1
-    PC1 -.-> S2
-    PC1 -.-> I1
-    PC1 -.-> I2
-
-    PC2 -.-> S1
-    PC2 -.-> S2
-    PC2 -.-> I1
-    PC2 -.-> I2
-
-    S1 -.-> S2
-    S1 -.-> I1
-    S1 -.-> I2
-
-    S2 -.-> I1
-    S2 -.-> I2
-
-    I1 -.-> I2
-    
-    S2 ==>|Exit Node| Internet((🌐 Internet))
-    I2 ==>|Subnet Routes| LAN[192.168.1.0/24<br/>192.168.8.0/24]
-    
-    style M1 fill:#e1f5fe
-    style M2 fill:#e1f5fe
-    style M3 fill:#e1f5fe
-    style PC1 fill:#f3e5f5
-    style PC2 fill:#f3e5f5
-    style S1 fill:#fff3e0
-    style S2 fill:#ffebee
-    style I1 fill:#e8f5e9
-    style I2 fill:#e8f5e9
+    Walle -->|Exit Node| Internet((인터넷))
+    LT -->|Exit Node| Internet
+    Arv -->|Exit Node| Internet
+    LT -->|서브넷 라우팅| LtLan["10.210.1.0/24"]
+    Arv -->|서브넷 라우팅| ArvLan["192.168.221.0/24 · 221.148.219.0/24"]
+    Steward -->|서브넷 라우팅| StewardLan["192.168.222.0/24"]
 ```
 
-## 태그별 디바이스 분류
+## 접근 정책
 
-| 태그 | 디바이스 | 수량 |
-|------|----------|------|
-| `tag:mobile` | 13-mini, pro, z-5 | 3대 |
-| `tag:pc` | eve, Surface | 2대 |
-| `tag:server` | girl, walle | 2대 |
-| `tag:docker` | heritage | 1대 |
-| `tag:https` | arv | 1대 |
-| `tag:network` | arv | 1대 |
+| 기능 | 적용 범위 |
+|---|---|
+| Tailnet 통신 | 현재 ACL은 Tailnet 내부 통신을 허용합니다. 실제 연결은 직접 연결 또는 릴레이를 사용할 수 있습니다. |
+| Tailscale SSH | 태그 장비끼리 비루트 계정을 허용합니다. 허용된 사용자 그룹은 태그 장비와 자기 소유 장비에 접속할 수 있습니다. 목적지에서 Tailscale SSH를 활성화해야 합니다. |
+| Exit Node | `arv`, `lt`, `walle`이 Exit Node로 표시됩니다. |
+| Funnel | `tag:https`에 Funnel 사용 권한을 부여합니다. 실제 공개 서비스는 장비 설정에 따릅니다. |
+| Taildrop 수신 정책 | `tag:linux`, `tag:pc`, `tag:mobile`, `tag:oci`를 대상으로 합니다. |
 
-## 네트워크 기능
-
-### 🔐 Private Mesh VPN
-- 모든 디바이스 간 P2P 연결
-- 전체 암호화 통신
-
-### 🌐 Exit Node
-- **walle**: 인터넷 트래픽 라우팅 가능
-
-### 🌐 Subnet Router
-- **arv**: 192.168.1.0/24, 192.168.8.0/24 네트워크 노출
-
-### 🔌 Tailscale Funnel
-- **arv** (tag:https): 443 포트 공개
-
-### 📁 파일 공유 (Taildrop)
-- **tag:server**, **tag:pc**: 파일 수신 가능
-
+전체 규칙은 [ACL 정책 문서](./acl.md)에서 확인할 수 있습니다.

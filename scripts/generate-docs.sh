@@ -12,7 +12,7 @@ Generate documentation from Tailscale ACL policy.hujson
 
 Options:
   -p, --policy FILE     Path to policy.hujson (default: opentofu/policy.hujson)
-  -o, --output DIR      Output directory (default: ../docs)
+  -o, --output DIR      Output directory (default: docs/okf/reference)
   --pr-comment          Generate PR comment diff in the output directory
   --compare REF         Git ref to compare (default: HEAD~1)
   -h, --help            Show this help message
@@ -27,7 +27,7 @@ HELP
 
 # Default values
 POLICY_FILE="opentofu/policy.hujson"
-OUTPUT_DIR="docs"
+OUTPUT_DIR="docs/okf/reference"
 PR_COMMENT=false
 COMPARE_REF="HEAD~1"
 VERBOSE=false
@@ -390,7 +390,9 @@ END
 }
 
 generate_footer() {
-    cat << 'FOOTER'
+    local policy_link
+    policy_link=$(python3 -c 'import os, sys; print(os.path.relpath(sys.argv[1], sys.argv[2]))' "$POLICY_FILE" "$OUTPUT_DIR")
+    cat << FOOTER
 
 ---
 
@@ -398,7 +400,7 @@ generate_footer() {
 
 - [Tailscale ACL 문서](https://tailscale.com/kb/1018/acls/)
 - [SSH 설명서](https://tailscale.com/kb/1193/tailscale-ssh/)
-- [policy.hujson](../policy.hujson)
+- [policy.hujson]($policy_link)
 
 ---
 *이 문서는 \`scripts/generate-docs.sh\`에 의해 자동 생성되었습니다.*
@@ -443,7 +445,7 @@ compare_policies() {
 
     # git 이력이 있는 경우 이전 버전 가져오기
     if git rev-parse --git-dir > /dev/null 2>&1; then
-        old_file=$(git show "$COMPARE_REF:policy.hujson" 2>/dev/null || echo "")
+        old_file=$(git show "$COMPARE_REF:${POLICY_FILE#./}" 2>/dev/null || git show "$COMPARE_REF:policy.hujson" 2>/dev/null || true)
         new_file=$(cat "$POLICY_FILE")
 
         if [[ -z "$old_file" ]]; then
@@ -536,7 +538,7 @@ PR_COMMENT
             IFS='|' read -r _ modified added deleted <<< "$comparison"
             echo "**상태:** 📝 ACL 정책 수정" >> "$comment_file"
             echo "" >> "$comment_file"
-            echo "변경된 섹션: $modified개" >> "$comment_file"
+            echo "변경된 섹션: ${modified}개" >> "$comment_file"
             echo "라인 변경: $added / $deleted" >> "$comment_file"
             ;;
     esac
@@ -547,7 +549,7 @@ PR_COMMENT
 
 ### 📄 전체 문서 보기
 
-생성된 문서는 `docs/acl.md`에서 확인할 수 있습니다.
+생성된 문서는 `docs/okf/reference/acl.md`에서 확인할 수 있습니다.
 
 PR_COMMENT_END
 

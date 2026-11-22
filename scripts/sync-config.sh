@@ -1,7 +1,7 @@
 #!/bin/bash
 # Live 설정 → Local 동기화 스크립트
 # 1. Aperture 설정 → aperture/config.json (secret은 Aperture가 keyid 참조로 마스킹, 평문 미포함)
-# 2. Tailnet 디바이스 인벤토리 → docs/devices.json
+# 2. Tailnet 디바이스 인벤토리 → docs/okf/reference/devices.json
 # ACL(policy.hujson)은 이 스크립트로 가져오지 않음 — repo가 Source of Truth (tofu plan으로 drift 확인).
 
 set -euo pipefail
@@ -28,7 +28,7 @@ Environment (loaded from sops-encrypted .env.sops):
 
 Outputs:
   aperture/config.json    Aperture 설정 (keyid 참조, 커밋 가능)
-  docs/devices.json       Tailnet 디바이스 스냅샷 (hostname/os/tags/user)
+  docs/okf/reference/devices.json       Tailnet 디바이스 스냅샷 (hostname/os/tags/user)
 HELP
 }
 
@@ -87,11 +87,12 @@ TOKEN=$(curl -sS -f -X POST "${API_BASE}/oauth/token" \
     -d "grant_type=client_credentials" | jq -r '.access_token')
 
 echo "ℹ️  Fetching tailnet devices..."
+mkdir -p docs/okf/reference
 # 임시 노드(SSH console 등 os=js)와 이름 중복 localhost 제외한 안정적 스냅샷
 curl -sS -f -H "Authorization: Bearer ${TOKEN}" \
     "${API_BASE}/tailnet/${TAILNET}/devices" | \
     jq '[.devices[]
         | select(.os != "js")
         | {hostname, os, user, tags: (.tags // [])}] | sort_by(.hostname)' \
-    > docs/devices.json
-echo "✅ docs/devices.json ($(jq 'length' docs/devices.json) devices)"
+    > docs/okf/reference/devices.json
+echo "✅ docs/okf/reference/devices.json ($(jq 'length' docs/okf/reference/devices.json) devices)"

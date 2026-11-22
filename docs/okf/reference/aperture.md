@@ -9,16 +9,6 @@ aperture/
 └── config.json    # Aperture 전체 설정 (providers, grants, hooks)
 ```
 
-## 설정 적용
-
-```bash
-# 방법 1: API로 적용
-./scripts/apply-aperture.sh
-
-# 방법 2: Aperture 대시보드 → Settings → JSON Editor 에 직접 붙여넣기
-# http://ai/aperture/settings
-```
-
 ## MCP Server Proxying
 
 Aperture MCP 프록시는 `mcp.servers`에 `url`만 지정 가능하여 **Authorization 헤더 전달 불가**.

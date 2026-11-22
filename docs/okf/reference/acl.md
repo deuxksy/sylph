@@ -1,7 +1,7 @@
 # Tailscale ACL 문서
 
-> 자동 생성일: 2026-11-22 14:16:40 +0900
-> 커밋: `30d396c` (Crong)
+> 자동 생성일: 2026-11-22 14:32:44 +0900
+> 커밋: `fd5998d` (Crong)
 
 ---
 
@@ -150,7 +150,7 @@ graph TB
 
 - [Tailscale ACL 문서](https://tailscale.com/kb/1018/acls/)
 - [SSH 설명서](https://tailscale.com/kb/1193/tailscale-ssh/)
-- [policy.hujson](../policy.hujson)
+- [policy.hujson](../../../opentofu/policy.hujson)
 
 ---
-*이 문서는 \`scripts/generate-docs.sh\`에 의해 자동 생성되었습니다.*
+*이 문서는 `scripts/generate-docs.sh`에 의해 자동 생성되었습니다.*

@@ -36,7 +36,7 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const comment = fs.readFileSync('docs/.pr-comment.md', 'utf8');
+            const comment = fs.readFileSync('docs/okf/reference/.pr-comment.md', 'utf8');
             github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,

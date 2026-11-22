@@ -4,7 +4,8 @@
     "os": "android",
     "user": "ksymailing@gmail.com",
     "tags": [
-      "tag:projector"
+      "tag:android",
+      "tag:mobile"
     ]
   },
   {
@@ -21,6 +22,7 @@
     "os": "android",
     "user": "ksymailing@gmail.com",
     "tags": [
+      "tag:android",
       "tag:mobile"
     ]
   },
@@ -29,6 +31,7 @@
     "os": "android",
     "user": "ksymailing@gmail.com",
     "tags": [
+      "tag:android",
       "tag:mobile"
     ]
   },
@@ -72,6 +75,7 @@
     "os": "linux",
     "user": "ksymailing@gmail.com",
     "tags": [
+      "tag:linux",
       "tag:oci"
     ]
   },
@@ -89,7 +93,8 @@
     "os": "macOS",
     "user": "ksymailing@gmail.com",
     "tags": [
-      "tag:mac"
+      "tag:mac",
+      "tag:pc"
     ]
   },
   {
@@ -97,8 +102,7 @@
     "os": "linux",
     "user": "ksymailing@gmail.com",
     "tags": [
-      "tag:linux",
-      "tag:server"
+      "tag:linux"
     ]
   },
   {
@@ -106,7 +110,6 @@
     "os": "linux",
     "user": "ksymailing@gmail.com",
     "tags": [
-      "tag:heritage",
       "tag:linux"
     ]
   },
@@ -115,6 +118,7 @@
     "os": "iOS",
     "user": "ksymailing@gmail.com",
     "tags": [
+      "tag:ios",
       "tag:mobile"
     ]
   },
@@ -131,6 +135,7 @@
     "os": "iOS",
     "user": "ksymailing@gmail.com",
     "tags": [
+      "tag:ios",
       "tag:mobile"
     ]
   },
@@ -139,6 +144,7 @@
     "os": "linux",
     "user": "ksymailing@gmail.com",
     "tags": [
+      "tag:linux",
       "tag:oci"
     ]
   },
@@ -163,8 +169,7 @@
     "os": "linux",
     "user": "ksymailing@gmail.com",
     "tags": [
-      "tag:linux",
-      "tag:server"
+      "tag:linux"
     ]
   }
 ]

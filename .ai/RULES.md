@@ -15,7 +15,7 @@ Sylph는 Tailscale ACL 정책(`opentofu/policy.hujson`)을 관리·문서화하�
 
 ### scripts/generate-docs.sh
 - `main()`이 두 번 정의되며, 마지막 정의가 `--pr-comment`를 처리한다.
-- `--pr-comment`의 기본 출력 경로는 `docs/.pr-comment.md`다.
+- `--pr-comment`의 기본 출력 경로는 `docs/okf/reference/.pr-comment.md`다.
 
 ### scripts/tag-device.sh
 - Tailscale API(OAuth client)로 디바이스에 tag 부여
@@ -40,7 +40,7 @@ Sylph는 Tailscale ACL 정책(`opentofu/policy.hujson`)을 관리·문서화하�
 ## ACL 수정 Workflow
 
 1. `opentofu/policy.hujson` 수정
-2. `./scripts/generate-docs.sh` 실행 → `docs/acl.md` 확인
+2. `./scripts/generate-docs.sh` 실행 → `docs/okf/reference/acl.md` 확인
 3. 커밋 + PR 생성
 4. 정책 변경 PR에서 OpenTofu Plan과 ACL 문서 댓글이 실행된다.
 5. 대상 경로가 변경된 `main` 푸시에서 Plan이 성공하면 `opentofu.yml`이 `production` 환경에서 Apply를 실행한다.
