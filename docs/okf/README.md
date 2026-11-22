@@ -2,6 +2,7 @@
 
 ## How-to
 
+- [Ansible로 Tailscale 장비 설정](./how-to/manage-tailscale-devices.md) — macOS 최초 설치와 점검, Linux SSH, Raspberry Pi 설정
 - [Aperture 설정 적용](./how-to/apply-aperture.md)
 
 ## Reference

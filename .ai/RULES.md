@@ -32,6 +32,11 @@ Sylph는 Tailscale ACL 정책(`opentofu/policy.hujson`)을 관리·문서화하�
 - GitHub Actions의 Plan과 Apply는 `TS_OAUTH_CLIENT_ID`와 `TS_OAUTH_CLIENT_SECRET` 시크릿을 사용한다.
 - 사용: `./scripts/tofu.sh plan|apply|import ...`
 
+### ansible/
+- `ansible/tailscale-macos.yml`은 로컬 Apple Silicon Mac에서 Homebrew Tailscale, 부팅 서비스, Tailscale SSH를 관리한다.
+- 원격 macOS 실행은 상태 점검만 수행한다. 최초 Tailnet 인증과 기존 GUI 전환은 로컬 콘솔에서 진행한다.
+- Tailnet 정책과 장비 태그는 OpenTofu에서 관리한다. 장비 설정 절차는 `docs/okf/how-to/manage-tailscale-devices.md`를 참조한다.
+
 ### .env.sops
 - JSON 형식: 전체 내용이 `data` 키 하나에 암호화됨 → `sops -d .env.sops`는 실패
 - 수동 복호화: `sops -d --input-type json --output-type binary .env.sops > .env`

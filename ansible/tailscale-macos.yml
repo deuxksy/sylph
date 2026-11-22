@@ -1,0 +1,217 @@
+---
+- name: Homebrew Tailscale 설치 및 macOS 서비스 점검
+  hosts: macos_tailscale
+  gather_facts: true
+  serial: 1
+  vars:
+    tailscale_local: "{{ (ansible_connection | default('ssh')) == 'local' }}"
+    tailscale_can_change: "{{ tailscale_local and not ansible_check_mode }}"
+    brew_bin: /opt/homebrew/bin/brew
+    tailscale_cli: [/opt/homebrew/bin/tailscale, "--socket=/var/run/tailscaled.socket"]
+    tailscale_service: system/sh.brew.tailscale
+    tailscale_plist: /Library/LaunchDaemons/sh.brew.tailscale.plist
+
+  tasks:
+    - name: Apple Silicon macOS와 명시적인 단일 대상 확인
+      ansible.builtin.assert:
+        that:
+          - ansible_facts.system == 'Darwin'
+          - ansible_facts.architecture == 'arm64'
+          - (ansible_limit | default('')) == inventory_hostname
+          - not tailscale_local or ansible_facts.user_uid != 0
+        fail_msg: "Apple Silicon Mac 한 대를 --limit에 인벤토리 이름으로 지정하세요."
+
+    - name: macOS VPN 연결 상태 조회
+      ansible.builtin.command: /usr/sbin/scutil --nc list
+      register: macos_vpn
+      changed_when: false
+      check_mode: false
+
+    - name: GUI VPN이 연결 중이거나 상태를 확인할 수 없으면 중단
+      ansible.builtin.assert:
+        that:
+          - macos_vpn.stdout is search('Available network connection services')
+          - macos_vpn.stdout_lines | select('search', '(?i)tailscale') | reject('search', '(?i)\(Disconnected\)') | list | length == 0
+        fail_msg: "GUI Tailscale 연결을 확인하세요. 기존 GUI 전환은 로컬 콘솔의 운영 절차를 따릅니다."
+
+    - name: Homebrew 바이너리 확인
+      ansible.builtin.stat:
+        path: "{{ brew_bin }}"
+        follow: true
+      register: brew_file
+
+    - name: Homebrew가 없으면 공식 설치 프로그램 실행
+      when: not brew_file.stat.exists and tailscale_can_change
+      block:
+        - name: Homebrew 설치 프로그램 임시 파일 생성
+          ansible.builtin.tempfile:
+            state: file
+            suffix: -homebrew-install.sh
+          register: brew_installer
+
+        - name: Homebrew 공식 설치 프로그램 다운로드
+          ansible.builtin.get_url:
+            url: https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
+            dest: "{{ brew_installer.path }}"
+            mode: "0600"
+
+        - name: 일반 사용자로 Homebrew 설치
+          ansible.builtin.command:
+            argv: [/bin/bash, "{{ brew_installer.path }}"]
+          environment:
+            NONINTERACTIVE: "1"
+          args:
+            creates: "{{ brew_bin }}"
+      always:
+        - name: 임시 설치 프로그램 삭제
+          ansible.builtin.file:
+            path: "{{ brew_installer.path }}"
+            state: absent
+          when: brew_installer.path is defined
+
+    - name: Homebrew 설치 경로 재확인
+      ansible.builtin.stat:
+        path: "{{ brew_bin }}"
+        follow: true
+      register: brew_ready
+
+    - name: Homebrew 설치 확인
+      ansible.builtin.assert:
+        that: brew_ready.stat.executable | default(false)
+        fail_msg: "Homebrew를 사용할 수 없습니다. 로컬 콘솔에서 설치 준비 절차를 완료하세요."
+
+    - name: 설치된 Tailscale 포뮬러 조회
+      ansible.builtin.command:
+        argv: ["{{ brew_bin }}", list, --versions, tailscale]
+      register: tailscale_formula
+      changed_when: false
+      failed_when: tailscale_formula.rc not in [0, 1] or (tailscale_formula.rc == 1 and tailscale_formula.stderr | length > 0)
+      check_mode: false
+
+    - name: Tailscale 포뮬러 설치
+      ansible.builtin.command:
+        argv: ["{{ brew_bin }}", install, tailscale]
+      environment:
+        HOMEBREW_NO_AUTO_UPDATE: "1"
+      when: tailscale_can_change and tailscale_formula.stdout | trim == ''
+
+    - name: Homebrew Tailscale CLI 확인
+      ansible.builtin.stat:
+        path: "{{ tailscale_cli[0] }}"
+        follow: true
+      register: tailscale_binary
+
+    - name: CLI가 없으면 중단
+      ansible.builtin.assert:
+        that: tailscale_binary.stat.executable | default(false)
+        fail_msg: "Homebrew Tailscale CLI가 없습니다. 로컬 콘솔에서 설치 플레이를 실행하세요."
+
+    - name: Tailscale 시스템 서비스 조회
+      become: true
+      ansible.builtin.command:
+        argv: [/bin/launchctl, print, "{{ tailscale_service }}"]
+      register: launchd_before
+      changed_when: false
+      failed_when: launchd_before.rc != 0 and 'Could not find service' not in launchd_before.stderr
+      check_mode: false
+
+    - name: 로컬에서 중지된 Tailscale 시스템 서비스 시작
+      become: true
+      ansible.builtin.command:
+        argv: ["{{ brew_bin }}", services, start, tailscale]
+      when: tailscale_can_change and launchd_before.stdout is not search('(?m)^\s*state = running\s*$')
+
+    - name: Tailscale 시스템 서비스 실행 확인
+      become: true
+      ansible.builtin.command:
+        argv: [/bin/launchctl, print, "{{ tailscale_service }}"]
+      register: launchd_running
+      changed_when: false
+      check_mode: false
+      retries: 5
+      delay: 1
+      until: launchd_running.rc == 0 and launchd_running.stdout is search('(?m)^\s*state = running\s*$')
+
+    - name: 부팅 시 시작 설정 확인
+      become: true
+      ansible.builtin.command:
+        argv: [/usr/libexec/PlistBuddy, -c, "Print :RunAtLoad", "{{ tailscale_plist }}"]
+      register: launchd_run_at_load
+      changed_when: false
+      failed_when: launchd_run_at_load.rc != 0 or launchd_run_at_load.stdout | trim != 'true'
+      check_mode: false
+
+    - name: 시스템 서비스가 비활성화되지 않았는지 확인
+      become: true
+      ansible.builtin.command: /bin/launchctl print-disabled system
+      register: disabled_services
+      changed_when: false
+      failed_when: >-
+        disabled_services.rc != 0 or
+        disabled_services.stdout is search('"sh\.brew\.tailscale"\s*=>\s*(disabled|true)')
+      check_mode: false
+
+    - name: 기본 소켓에서 Tailnet 상태 조회
+      ansible.builtin.command:
+        argv: "{{ tailscale_cli + ['status', '--json'] }}"
+      register: tailscale_status
+      changed_when: false
+      check_mode: false
+      retries: 5
+      delay: 1
+      until: tailscale_status.rc == 0 and (tailscale_status.stdout | from_json).BackendState != 'Starting'
+
+    - name: Tailnet 인증 및 노드 확인
+      vars:
+        node: "{{ tailscale_status.stdout | from_json }}"
+      ansible.builtin.assert:
+        that:
+          - node.BackendState == 'Running'
+          - node.Self.ID | default('') | length > 0
+          - (node.Self.DNSName | regex_replace('\.$', '')) == (tailscale_expected_dns_name | default(node.Self.DNSName | regex_replace('\.$', '')))
+        fail_msg: >-
+          백엔드가 {{ node.BackendState }} 상태이거나 예상과 다른 노드입니다.
+          NeedsLogin이면 로컬 콘솔에서 sudo {{ tailscale_cli | join(' ') }} up으로 인증한 뒤 재실행하세요.
+
+    - name: 현재 Tailscale SSH 설정 조회
+      become: true
+      ansible.builtin.command:
+        argv: "{{ tailscale_cli + ['debug', 'prefs'] }}"
+      register: tailscale_prefs
+      changed_when: false
+      check_mode: false
+      no_log: true
+
+    - name: 로컬에서 Tailscale SSH가 꺼져 있을 때만 활성화
+      become: true
+      ansible.builtin.command:
+        argv: "{{ tailscale_cli + ['set', '--ssh'] }}"
+      when: tailscale_can_change and not (tailscale_prefs.stdout | from_json).RunSSH
+
+    - name: 적용 후 Tailscale SSH 설정 조회
+      become: true
+      ansible.builtin.command:
+        argv: "{{ tailscale_cli + ['debug', 'prefs'] }}"
+      register: tailscale_prefs_after
+      changed_when: false
+      check_mode: false
+      no_log: true
+
+    - name: 노드 ID와 DNS 이름 재조회
+      ansible.builtin.command:
+        argv: "{{ tailscale_cli + ['status', '--json'] }}"
+      register: tailscale_after
+      changed_when: false
+      check_mode: false
+
+    - name: 노드 ID 보존 및 Tailscale SSH 활성 상태 확인
+      vars:
+        before: "{{ tailscale_status.stdout | from_json }}"
+        after: "{{ tailscale_after.stdout | from_json }}"
+      ansible.builtin.assert:
+        that:
+          - after.BackendState == 'Running'
+          - after.Self.ID == before.Self.ID
+          - after.Self.DNSName == before.Self.DNSName
+          - (tailscale_prefs_after.stdout | from_json).RunSSH
+        fail_msg: "Tailscale SSH가 꺼져 있거나 노드가 달라졌습니다. 로컬 콘솔에서 상태를 확인하세요."
